@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Filiere {
@@ -13,6 +15,10 @@ public class Filiere {
 	private Long id;
 	private String alias, intitule, anne_accreditation, anne_fin_accreditation;
 	private float x, y;
+	
+	@ManyToOne
+	@JoinColumn(name="id_coordinateur")
+	private Enseignant coordinateur;
 	
 	// constructors
 	public Filiere() {}
@@ -27,8 +33,18 @@ public class Filiere {
 	}
 	
 	// getters and setters
+	
+	
 	public Long getId() {
 		return id;
+	}
+
+	public Enseignant getCoordinateur() {
+		return coordinateur;
+	}
+
+	public void setCoordinateur(Enseignant coordinateur) {
+		this.coordinateur = coordinateur;
 	}
 
 	public void setId(Long id) {

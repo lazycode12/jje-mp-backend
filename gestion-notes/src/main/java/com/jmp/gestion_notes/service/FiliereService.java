@@ -6,21 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jmp.gestion_notes.model.Filiere;
+import com.jmp.gestion_notes.model.Enseignant;
 import com.jmp.gestion_notes.repo.FiliereRepository;
+import com.jmp.gestion_notes.repo.EnseignantRepository;
 import com.jmp.gestion_notes.exception.ResourceNotFoundException;
 
 @Service
 public class FiliereService {
 	
 	private final FiliereRepository filiereRepo;
+	private final EnseignantRepository enseignantRepository;
 	
 	@Autowired
-	public FiliereService(FiliereRepository filiereRepo) {
+	public FiliereService(FiliereRepository filiereRepo, EnseignantRepository enseignantRepository) {
 		this.filiereRepo = filiereRepo;
+		this.enseignantRepository = enseignantRepository;
 	}
 	
 	// create Filiere
-	public Filiere addFiliere(Filiere filiere) {
+	public Filiere addFiliere(Filiere filiere, Long id_coordinateur) {
+		Enseignant coordinateur = enseignantRepository.findById(id_coordinateur).orElseThrow(() -> new ResourceNotFoundException("enseignant", "id", id_coordinateur));
+		filiere.setCoordinateur(coordinateur);
 		return filiereRepo.save(filiere);
 	}
 	

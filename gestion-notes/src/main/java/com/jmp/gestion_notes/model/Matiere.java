@@ -25,10 +25,23 @@ public class Matiere {
 	@OneToMany(mappedBy="matiere")
 	List<Note> notes;
 	
+	@ManyToOne
+	@JoinColumn(name="id_enseignant")
+	private Enseignant enseignant;
+	
 	public Matiere() {}
 
 	public Matiere(String titre) {
 		this.titre = titre;
+	}
+
+	
+	public Enseignant getEnseignant() {
+		return enseignant;
+	}
+
+	public void setEnseignant(Enseignant enseignant) {
+		this.enseignant = enseignant;
 	}
 
 	public Long getId() {

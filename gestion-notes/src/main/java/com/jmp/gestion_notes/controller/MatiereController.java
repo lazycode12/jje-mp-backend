@@ -40,8 +40,8 @@ public class MatiereController {
     }
     
     @PostMapping("")
-    public ResponseEntity<Matiere> createMatiere(@RequestBody Matiere matiere, @RequestParam Long id_module){
-    	Matiere newMatiere = matiereService.createMatiere(matiere, id_module);
+    public ResponseEntity<Matiere> createMatiere(@RequestBody Matiere matiere, @RequestParam Long id_module, @RequestParam Long id_ensignant){
+    	Matiere newMatiere = matiereService.createMatiere(matiere, id_module, id_ensignant);
     	return new ResponseEntity<>(newMatiere, HttpStatus.CREATED);
     }
     

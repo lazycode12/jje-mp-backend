@@ -33,8 +33,8 @@ public class FiliereController {
     }
     
     @PostMapping("")
-    public ResponseEntity<Filiere> createFiliere(@RequestBody Filiere filiere){
-    	Filiere Newfiliere = filierService.addFiliere(filiere);
+    public ResponseEntity<Filiere> createFiliere(@RequestBody Filiere filiere, @RequestParam Long id_coordinateur){
+    	Filiere Newfiliere = filierService.addFiliere(filiere, id_coordinateur);
     	return new ResponseEntity<>(Newfiliere, HttpStatus.CREATED);
     }
     

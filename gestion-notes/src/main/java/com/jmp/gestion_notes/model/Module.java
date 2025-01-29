@@ -19,6 +19,10 @@ public class Module {
 	@JoinColumn(name="id_niveau")
 	private Niveau niveau;
 	
+	@ManyToOne
+	@JoinColumn(name="id_responsable")
+	private Enseignant resp;
+	
 	public Module() {
 		super();
 	}
@@ -27,6 +31,16 @@ public class Module {
 		super();
 		this.code = code;
 		this.titre = titre;
+	}
+	
+	
+
+	public Enseignant getResp() {
+		return resp;
+	}
+
+	public void setResp(Enseignant resp) {
+		this.resp = resp;
 	}
 
 	public Long getId() {

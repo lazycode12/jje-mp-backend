@@ -39,8 +39,8 @@ public class ModuleController {
     }
     
     @PostMapping("")
-    public ResponseEntity<Module> createModule(@RequestBody Module module, @RequestParam Long id_niveau){
-    	Module newModule = moduleService.createModule(module, id_niveau);
+    public ResponseEntity<Module> createModule(@RequestBody Module module, @RequestParam Long id_niveau, @RequestParam Long id_resp){
+    	Module newModule = moduleService.createModule(module, id_niveau, id_resp);
     	return new ResponseEntity<>(newModule, HttpStatus.CREATED);
     }
     

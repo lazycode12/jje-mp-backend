@@ -6,28 +6,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jmp.gestion_notes.exception.ResourceNotFoundException;
+
 import com.jmp.gestion_notes.model.Matiere;
 import com.jmp.gestion_notes.model.Module;
+import com.jmp.gestion_notes.model.Enseignant;
+
 import com.jmp.gestion_notes.repo.MatiereRepository;
 import com.jmp.gestion_notes.repo.ModuleRepository;
+import com.jmp.gestion_notes.repo.EnseignantRepository;
 
 @Service
 public class MatiereService {
 	private final MatiereRepository matiereRepository;
 	private final ModuleRepository moduleRepository;
+	private final EnseignantRepository enseignantRepository;
 
 	@Autowired
-	public MatiereService(MatiereRepository matiereRepository, ModuleRepository moduleRepository) {
+	public MatiereService(MatiereRepository matiereRepository, ModuleRepository moduleRepository, EnseignantRepository enseignantRepository) {
 		this.matiereRepository = matiereRepository;
 		this.moduleRepository = moduleRepository;
+		this.enseignantRepository = enseignantRepository;
 	}
 	
 	// create matiere
-	public Matiere createMatiere(Matiere matiere, Long id_module) {
+	public Matiere createMatiere(Matiere matiere, Long id_module, Long id_enseignant) {
 		
 		Module module = moduleRepository.findById(id_module).orElseThrow(() -> new ResourceNotFoundException("module", "id", id_module));
+		Enseignant enseignant = enseignantRepository.findById(id_enseignant).orElseThrow(() -> new ResourceNotFoundException("enseignant", "id", id_module));
 		
 		matiere.setModule(module);
+		matiere.setEnseignant(enseignant);
 		
 		return matiereRepository.save(matiere);
 	}

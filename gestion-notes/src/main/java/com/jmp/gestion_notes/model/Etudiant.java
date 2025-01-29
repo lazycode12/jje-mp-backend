@@ -22,8 +22,8 @@ public class Etudiant {
 	@JoinColumn(name="id_niveau")
 	private Niveau niveau;
 	
-	@OneToMany(mappedBy="etudiant")
-	List<Note> notes;
+//	@OneToMany(mappedBy="etudiant")
+//	List<Note> notes;
 	
 	public Etudiant() {}
 
@@ -43,13 +43,13 @@ public class Etudiant {
 		this.niveau = niveau;
 	}
 
-	public List<Note> getNotes() {
-		return notes;
-	}
-
-	public void setNotes(List<Note> notes) {
-		this.notes = notes;
-	}
+//	public List<Note> getNotes() {
+//		return notes;
+//	}
+//
+//	public void setNotes(List<Note> notes) {
+//		this.notes = notes;
+//	}
 
 	public Long getId() {
 		return id;
