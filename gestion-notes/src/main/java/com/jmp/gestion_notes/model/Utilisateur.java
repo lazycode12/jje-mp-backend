@@ -15,8 +15,10 @@ public class Utilisateur {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String role, login, password;
-	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1") // Default value is 0
+	
+	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1") // Default value is 1
 	private boolean enabled;
+	
 	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0") // Default value is 0
 	private boolean locked;
 	
@@ -27,12 +29,8 @@ public class Utilisateur {
 	
 	public Utilisateur() {}
 
-	public Utilisateur(String role, String login, String password, boolean enabled, boolean locked) {
+	public Utilisateur(String role) {
 		this.role = role;
-		this.login = login;
-		this.password = password;
-		this.enabled = enabled;
-		this.locked = locked;
 	}
 	
 	

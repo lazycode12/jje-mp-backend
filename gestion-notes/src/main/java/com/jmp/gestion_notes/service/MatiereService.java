@@ -3,21 +3,32 @@ package com.jmp.gestion_notes.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.jmp.gestion_notes.exception.ResourceNotFoundException;
 import com.jmp.gestion_notes.model.Matiere;
+import com.jmp.gestion_notes.model.Module;
 import com.jmp.gestion_notes.repo.MatiereRepository;
+import com.jmp.gestion_notes.repo.ModuleRepository;
 
+@Service
 public class MatiereService {
 	private final MatiereRepository matiereRepository;
+	private final ModuleRepository moduleRepository;
 
 	@Autowired
-	public MatiereService(MatiereRepository MatiereRepository) {
-		this.matiereRepository = MatiereRepository;
+	public MatiereService(MatiereRepository matiereRepository, ModuleRepository moduleRepository) {
+		this.matiereRepository = matiereRepository;
+		this.moduleRepository = moduleRepository;
 	}
 	
 	// create matiere
-	public Matiere createMatiere(Matiere matiere) {
+	public Matiere createMatiere(Matiere matiere, Long id_module) {
+		
+		Module module = moduleRepository.findById(id_module).orElseThrow(() -> new ResourceNotFoundException("module", "id", id_module));
+		
+		matiere.setModule(module);
+		
 		return matiereRepository.save(matiere);
 	}
 	

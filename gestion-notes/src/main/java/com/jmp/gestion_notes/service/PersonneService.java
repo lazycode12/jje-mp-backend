@@ -3,11 +3,13 @@ package com.jmp.gestion_notes.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.jmp.gestion_notes.exception.ResourceNotFoundException;
 import com.jmp.gestion_notes.model.Personne;
 import com.jmp.gestion_notes.repo.PersonneRepository;
 
+@Service
 public class PersonneService {
 	private final PersonneRepository personneRepository;
 
@@ -17,8 +19,8 @@ public class PersonneService {
 	}
 	
 	// create Personne
-	public Personne createPersonne(Personne Personne) {
-		return personneRepository.save(Personne);
+	public Personne createPersonne(Personne personne) {
+		return personneRepository.save(personne);
 	}
 	
 	public List<Personne> getAllPersonnes(){

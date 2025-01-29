@@ -31,15 +31,24 @@ public class UtilisateurService {
 	}
 	
 	// create Utilisateur
-	public Map<String, String> createUtilisateur(Utilisateur utilisateur, Long id) {
-		Personne personne = personneRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Personne", "id", id));
+	public Map<String, String> createUtilisateur(Utilisateur utilisateur, Long id_personne) {
+		
+		Personne personne = personneRepository.findById(id_personne).orElseThrow(() -> new ResourceNotFoundException("Personne", "id", id_personne));
+		
+		//generate login and password
 		String password = generatePassword();
-		String login = utilisateur.getPersonne().getNom() + utilisateur.getPersonne().getPrenom();
+		String login = personne.getNom() + personne.getPrenom();
+		
+		//set the login and password and link the user to specific personne
 		utilisateur.setLogin(login);
 		utilisateur.setPassword(encoder.encode(password));
+		utilisateur.setPersonne(personne);
+		
+		//save the user in DB
 		utilisateurRepository.save(utilisateur);
+		
+		//return the login and password as json
         Map<String, String> response = new HashMap<>();
-        utilisateur.setPersonne(personne);
         response.put("login", login);
         response.put("password", password);
 		return response;

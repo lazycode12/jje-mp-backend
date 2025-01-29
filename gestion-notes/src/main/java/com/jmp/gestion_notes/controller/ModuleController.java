@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.jmp.gestion_notes.model.Module;
 import com.jmp.gestion_notes.service.ModuleService;
 
+@RestController
 @RequestMapping("/modules")
 public class ModuleController {
 	@Autowired
@@ -36,8 +39,8 @@ public class ModuleController {
     }
     
     @PostMapping("")
-    public ResponseEntity<Module> createModule(@RequestBody Module module){
-    	Module newModule = moduleService.createModule(module);
+    public ResponseEntity<Module> createModule(@RequestBody Module module, @RequestParam Long id_niveau){
+    	Module newModule = moduleService.createModule(module, id_niveau);
     	return new ResponseEntity<>(newModule, HttpStatus.CREATED);
     }
     

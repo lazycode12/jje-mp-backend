@@ -14,22 +14,54 @@ public class Niveau {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String alias;
+	private String intitule;
 	
 	@ManyToOne
 	@JoinColumn(name="id_filiere")
 	private Filiere filiere;
 	
+	@ManyToOne
+	@JoinColumn(name="id_niveau_suivant")
+	private Niveau niveauSuivant;
+	
 	// constructors
 	public Niveau() {}
 
-	public Niveau(String alias) {
+	public Niveau(String alias, String intitule) {
 		this.alias = alias;
+		this.intitule = intitule;
 	}
 	
 	//getters and setters
+	
 
+	
 	public Long getId() {
 		return id;
+	}
+
+	public String getIntitule() {
+		return intitule;
+	}
+
+	public void setIntitule(String intitule) {
+		this.intitule = intitule;
+	}
+
+	public Filiere getFiliere() {
+		return filiere;
+	}
+
+	public void setFiliere(Filiere filiere) {
+		this.filiere = filiere;
+	}
+
+	public Niveau getNiveauSuivant() {
+		return niveauSuivant;
+	}
+
+	public void setNiveauSuivant(Niveau niveauSuivant) {
+		this.niveauSuivant = niveauSuivant;
 	}
 
 	public void setId(Long id) {

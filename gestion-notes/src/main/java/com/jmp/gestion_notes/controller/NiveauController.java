@@ -11,10 +11,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.jmp.gestion_notes.model.Niveau;
 import com.jmp.gestion_notes.service.NiveauService;
 
+@RestController
+@RequestMapping("/niveaux")
 public class NiveauController {
 	
 	@Autowired
@@ -35,8 +40,8 @@ public class NiveauController {
     }
     
     @PostMapping("")
-    public ResponseEntity<Niveau> createNiveau(@RequestBody Niveau Niveau){
-    	Niveau NewNiveau = niveauService.createNiveau(Niveau);
+    public ResponseEntity<Niveau> createNiveau(@RequestBody Niveau Niveau, @RequestParam  Long filiere_id, @RequestParam(required = false) Long id_niveau_suivant){
+    	Niveau NewNiveau = niveauService.createNiveau(Niveau, filiere_id, id_niveau_suivant);
     	return new ResponseEntity<>(NewNiveau, HttpStatus.CREATED);
     }
     

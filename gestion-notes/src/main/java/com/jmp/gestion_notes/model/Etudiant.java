@@ -1,11 +1,14 @@
 package com.jmp.gestion_notes.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Etudiant {
@@ -19,12 +22,33 @@ public class Etudiant {
 	@JoinColumn(name="id_niveau")
 	private Niveau niveau;
 	
+	@OneToMany(mappedBy="etudiant")
+	List<Note> notes;
+	
 	public Etudiant() {}
 
 	public Etudiant(String cne, String nom, String prenom) {
 		this.cne = cne;
 		this.nom = nom;
 		this.prenom = prenom;
+	}
+	
+	
+
+	public Niveau getNiveau() {
+		return niveau;
+	}
+
+	public void setNiveau(Niveau niveau) {
+		this.niveau = niveau;
+	}
+
+	public List<Note> getNotes() {
+		return notes;
+	}
+
+	public void setNotes(List<Note> notes) {
+		this.notes = notes;
 	}
 
 	public Long getId() {

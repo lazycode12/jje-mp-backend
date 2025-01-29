@@ -11,10 +11,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.jmp.gestion_notes.model.Etudiant;
 import com.jmp.gestion_notes.service.EtudiantService;
 
+@RestController
+@RequestMapping("/etudiants")
 public class EtudiantController {
 	@Autowired
 	private EtudiantService etudiantService;
@@ -34,8 +39,8 @@ public class EtudiantController {
     }
     
     @PostMapping("")
-    public ResponseEntity<Etudiant> createEtudiant(@RequestBody Etudiant etudiant){
-    	Etudiant Newetudiant = etudiantService.addEtudiant(etudiant);
+    public ResponseEntity<Etudiant> createEtudiant(@RequestBody Etudiant etudiant, @RequestParam Long id_niveau){
+    	Etudiant Newetudiant = etudiantService.addEtudiant(etudiant, id_niveau);
     	return new ResponseEntity<>(Newetudiant, HttpStatus.CREATED);
     }
     

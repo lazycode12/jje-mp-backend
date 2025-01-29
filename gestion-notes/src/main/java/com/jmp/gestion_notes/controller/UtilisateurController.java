@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import com.jmp.gestion_notes.model.Utilisateur;
 import com.jmp.gestion_notes.service.UtilisateurService;
 
+@RestController
 @RequestMapping("/users")
 public class UtilisateurController {
 
@@ -35,9 +36,9 @@ public class UtilisateurController {
         return utilisateurService.initPass(id);
     }
     
-    @PostMapping("/{id}")
-    public Object createUtilisateur(@RequestBody Utilisateur user, @RequestParam Long id){
-    	return utilisateurService.createUtilisateur(user, id);
+    @PostMapping("")
+    public Object createUtilisateur(@RequestBody Utilisateur user, @RequestParam Long id_personne){
+    	return utilisateurService.createUtilisateur(user, id_personne);
 //    	return new ResponseEntity<>(password, HttpStatus.CREATED);
     }
     

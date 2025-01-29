@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.jmp.gestion_notes.model.Matiere;
 import com.jmp.gestion_notes.service.MatiereService;
 
+@RestController
 @RequestMapping("/matieres")
 public class MatiereController {
+	
 	@Autowired
 	private MatiereService matiereService;
 	
@@ -36,8 +40,8 @@ public class MatiereController {
     }
     
     @PostMapping("")
-    public ResponseEntity<Matiere> createMatiere(@RequestBody Matiere matiere){
-    	Matiere newMatiere = matiereService.createMatiere(matiere);
+    public ResponseEntity<Matiere> createMatiere(@RequestBody Matiere matiere, @RequestParam Long id_module){
+    	Matiere newMatiere = matiereService.createMatiere(matiere, id_module);
     	return new ResponseEntity<>(newMatiere, HttpStatus.CREATED);
     }
     

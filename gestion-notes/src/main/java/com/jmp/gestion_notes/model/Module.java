@@ -52,6 +52,16 @@ public class Module {
 	public void setTitre(String titre) {
 		this.titre = titre;
 	}
+	
+	
+
+	public Niveau getNiveau() {
+		return niveau;
+	}
+
+	public void setNiveau(Niveau niveau) {
+		this.niveau = niveau;
+	}
 
 	@Override
 	public String toString() {
