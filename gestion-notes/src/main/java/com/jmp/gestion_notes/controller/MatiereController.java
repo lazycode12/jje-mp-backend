@@ -39,6 +39,13 @@ public class MatiereController {
     	return new ResponseEntity<>(matiere, HttpStatus.OK);
     }
     
+    // get by name
+    @GetMapping("/partitre")
+    public ResponseEntity<Matiere> getModuleByTitre(@RequestParam String titre){
+    	Matiere matiere = matiereService.getMatiereByTitre(titre);
+    	return new ResponseEntity<>(matiere, HttpStatus.OK);
+    }
+    
     @PostMapping("")
     public ResponseEntity<Matiere> createMatiere(@RequestBody Matiere matiere, @RequestParam Long id_module, @RequestParam Long id_ensignant){
     	Matiere newMatiere = matiereService.createMatiere(matiere, id_module, id_ensignant);

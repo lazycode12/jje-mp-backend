@@ -52,6 +52,10 @@ public class NiveauService {
 		return niveauRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("niveau", "id", id));
 	}
 	
+	public Niveau getNiveauByAlias(String alias) {
+		return niveauRepository.findByAlias(alias);
+	}
+	
 	public void deleteNiveau(Long id) {
 		Niveau niveau = getNiveaueById(id);
 		niveauRepository.delete(niveau);

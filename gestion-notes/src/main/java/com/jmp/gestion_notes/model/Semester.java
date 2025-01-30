@@ -14,18 +14,18 @@ public class Semester {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String semester, session, anne_etude;
+	private String semester, session, anneEtude;
 	
 	@OneToMany(mappedBy = "semester")
 	private List<Note> notes;
 	
 	public Semester() {}
 
-	public Semester(String semester, String session, String anne_etude) {
+	public Semester(String semester, String session, String anneEtude) {
 		super();
 		this.semester = semester;
 		this.session = session;
-		this.anne_etude = anne_etude;
+		this.anneEtude = anneEtude;
 	}
 
 	public Long getId() {
@@ -52,17 +52,17 @@ public class Semester {
 		this.session = session;
 	}
 
-	public String getAnne_etude() {
-		return anne_etude;
+	public String getanneEtude() {
+		return anneEtude;
 	}
 
-	public void setAnne_etude(String anne_etude) {
-		this.anne_etude = anne_etude;
+	public void setanneEtude(String anneEtude) {
+		this.anneEtude = anneEtude;
 	}
 
 	@Override
 	public String toString() {
-		return "Semester [id=" + id + ", semester=" + semester + ", session=" + session + ", anne_etude=" + anne_etude
+		return "Semester [id=" + id + ", semester=" + semester + ", session=" + session + ", anneEtude=" + anneEtude
 				+ "]";
 	}
 	

@@ -59,4 +59,8 @@ public class ModuleService {
 		Module module = getModuleById(id);
 		moduleRepository.delete(module);
 	}
+	
+    public Module getModuleByTitre(String titre) {
+        return moduleRepository.findByTitre(titre);
+    }
 }

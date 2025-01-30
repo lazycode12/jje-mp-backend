@@ -38,6 +38,13 @@ public class ModuleController {
     	return new ResponseEntity<>(module, HttpStatus.OK);
     }
     
+    // get by name
+    @GetMapping("/partitre")
+    public ResponseEntity<Module> getModuleByTitre(@RequestParam String titre){
+    	Module module = moduleService.getModuleByTitre(titre);
+    	return new ResponseEntity<>(module, HttpStatus.OK);
+    }
+    
     @PostMapping("")
     public ResponseEntity<Module> createModule(@RequestBody Module module, @RequestParam Long id_niveau, @RequestParam Long id_resp){
     	Module newModule = moduleService.createModule(module, id_niveau, id_resp);

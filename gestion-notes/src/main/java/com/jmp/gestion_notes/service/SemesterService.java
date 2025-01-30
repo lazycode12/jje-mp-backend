@@ -33,7 +33,7 @@ public class SemesterService {
 		
 		semester.setSemester(updatesemester.getSemester());
 		semester.setSession(updatesemester.getSession());
-		semester.setAnne_etude(updatesemester.getAnne_etude());
+		semester.setanneEtude(updatesemester.getanneEtude());
 		
 		return semesterRepository.save(semester);
 	}
@@ -41,6 +41,11 @@ public class SemesterService {
 	public Semester getSemesterById(long id) {
 		return semesterRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("semester", "id", id));
 	}
+	
+    public Semester getSemesterByDetails(String session, String semester, String anne_etude) {
+        return semesterRepository.findBySessionAndSemesterAndAnneEtude(session, semester, anne_etude)
+                                 .orElse(null);
+    }
 	
 	public void deleteSemester(Long id) {
 		Semester s = getSemesterById(id);

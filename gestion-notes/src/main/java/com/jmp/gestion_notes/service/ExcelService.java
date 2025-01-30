@@ -1,5 +1,6 @@
 package com.jmp.gestion_notes.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.*;
@@ -12,14 +13,13 @@ import com.jmp.gestion_notes.model.Semester;
 import com.jmp.gestion_notes.model.Niveau;
 import com.jmp.gestion_notes.model.Etudiant;
 import com.jmp.gestion_notes.model.Matiere;
+import com.jmp.gestion_notes.model.Note;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-//import com.jmp.gestion_notes.service.SemesterService;
-//import com.jmp.gestion_notes.service.ModuleService;
-//import com.jmp.gestion_notes.service.NiveauService;
-//import com.jmp.gestion_notes.service.EtudiantService;
+import java.io.InputStream;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ExcelService {
@@ -29,14 +29,16 @@ public class ExcelService {
 	private NiveauService niveauService;
 	private EtudiantService etudiantService;
 	private MatiereService matiereService;
+	private NoteService noteService;
 	
 	@Autowired
-	public ExcelService(SemesterService semesterService, ModuleService moduleService, NiveauService niveauService, EtudiantService etudiantService, MatiereService matiereService) throws IOException {
+	public ExcelService(SemesterService semesterService, ModuleService moduleService, NiveauService niveauService, EtudiantService etudiantService, MatiereService matiereService, NoteService noteService) throws IOException {
 		this.semesterService = semesterService;
 		this.moduleService = moduleService;
 		this.niveauService = niveauService;
 		this.etudiantService = etudiantService;
 		this.matiereService = matiereService;
+		this.noteService = noteService;
 		
 	}
 
@@ -66,20 +68,20 @@ public class ExcelService {
         headerRow1.createCell(3).setCellValue(semester.getSemester());
         
         headerRow1.createCell(4).setCellValue("Annee");
-        headerRow1.createCell(5).setCellValue(semester.getAnne_etude());
+        headerRow1.createCell(5).setCellValue(semester.getanneEtude());
         
         Row headerRow2 = sheet.createRow(1);
         headerRow2.createCell(0).setCellValue("Enseignant");
         headerRow2.createCell(1).setCellValue(module.getResp().getPrenom() + " " + module.getResp().getNom());
         
-        headerRow2.createCell(3).setCellValue("Session");
-        headerRow2.createCell(4).setCellValue(semester.getSession());
+        headerRow2.createCell(2).setCellValue("Session");
+        headerRow2.createCell(3).setCellValue(semester.getSession());
         
-        headerRow2.createCell(5).setCellValue("Niveau");
-        headerRow2.createCell(6).setCellValue(niveau.getAlias());
+        headerRow2.createCell(4).setCellValue("Niveau");
+        headerRow2.createCell(5).setCellValue(niveau.getAlias());
         
         //empty row
-        Row emptryRow = sheet.createRow(2);
+        sheet.createRow(2);
         
         //main headers row
         Row headerRow3 = sheet.createRow(3);
@@ -130,4 +132,62 @@ public class ExcelService {
         
         
 	}
+	
+	
+	
+	
+	
+	
+	//  importer Fichiers de collecte des notes par module
+	 public void importer_collect_notes(MultipartFile file) throws IOException {
+		 
+	        try (InputStream inputStream = file.getInputStream()) {
+	            Workbook workbook = new XSSFWorkbook(inputStream);
+	            Sheet sheet = workbook.getSheetAt(0);
+	            
+	            String moduleTitre = sheet.getRow(0).getCell(1).getStringCellValue();
+//	            String niveauAlias = sheet.getRow(1).getCell(4).getStringCellValue();
+	            String semesterSemester = sheet.getRow(0).getCell(3).getStringCellValue();
+	            String anne_etude = sheet.getRow(0).getCell(5).getStringCellValue();
+	            String seesion = sheet.getRow(1).getCell(3).getStringCellValue();
+	            
+	            
+//	            Niveau niveau = niveauService.getNiveauByAlias(niveauAlias);
+	            Module module = moduleService.getModuleByTitre(moduleTitre);
+	            Semester semester = semesterService.getSemesterByDetails(seesion, semesterSemester, anne_etude);
+	            
+	            List<Matiere> ModulemMtieres = matiereService.getMatieresByModuleId(module.getId());
+	            List<Matiere> orderedMatieres = new ArrayList<>();
+	            
+	            
+	            int matiereCellIndex = 4;
+	            Matiere m;
+	            Row titresRow = sheet.getRow(3);
+                for(int i = 0; i < ModulemMtieres.size(); i++) {
+                	m = matiereService.getMatiereByTitre(titresRow.getCell(matiereCellIndex++).getStringCellValue());
+                	orderedMatieres.add(m);
+                	
+                }
+	            
+	            // Iterate through rows starting from the second row (skip header)
+                int colIndex;
+	            for (int i = 4; i <= sheet.getLastRowNum(); i++) {
+	            	Note note = new Note();
+	            	colIndex=4;
+	                Row row = sheet.getRow(i);
+	                if (row == null) continue;
+
+	                for(Matiere matiere: orderedMatieres) {
+	                	Etudiant etudiant = etudiantService.getEtudiantById((long) row.getCell(0).getNumericCellValue());
+	                	float valeur = (float) row.getCell(colIndex++).getNumericCellValue();
+	                	
+	                	note.setValeur(valeur);
+	                	noteService.addNote(note, etudiant.getId(), semester.getId(), matiere.getId());
+	                }
+	
+	                }
+	            workbook.close();
+	            }
+	 }
+	
 }
