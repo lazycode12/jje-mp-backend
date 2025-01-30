@@ -56,4 +56,9 @@ public class EtudiantController {
     	etudiantService.deleteEtudiant(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    
+    @GetMapping("/niveau/{niveauId}")
+    public List<Etudiant> getEtudiantsByNiveau(@PathVariable Long niveauId) {
+        return etudiantService.getEtudiantsByNiveau(niveauId);
+    }
 }

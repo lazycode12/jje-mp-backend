@@ -58,4 +58,8 @@ public class MatiereService {
 		Matiere matiere = getMatiereById(id);
 		matiereRepository.delete(matiere);
 	}
+	
+    public List<Matiere> getMatieresByModuleId(Long moduleId) {
+        return matiereRepository.findByModuleId(moduleId);
+    }
 }

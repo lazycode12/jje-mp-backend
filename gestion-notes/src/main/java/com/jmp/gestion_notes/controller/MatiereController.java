@@ -57,4 +57,9 @@ public class MatiereController {
     	matiereService.deleteMatiere(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    
+    @GetMapping("/module/{moduleId}")
+    public List<Matiere> getMatieresByModule(@PathVariable Long moduleId) {
+        return matiereService.getMatieresByModuleId(moduleId);
+    }
 }

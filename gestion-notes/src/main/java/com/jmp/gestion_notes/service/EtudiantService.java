@@ -52,4 +52,8 @@ public class EtudiantService {
 		Etudiant f = getEtudiantById(id);
 		etudiantRepo.delete(f);
 	}
+	
+    public List<Etudiant> getEtudiantsByNiveau(Long niveauId) {
+        return etudiantRepo.findByNiveauId(niveauId);
+    }
 }

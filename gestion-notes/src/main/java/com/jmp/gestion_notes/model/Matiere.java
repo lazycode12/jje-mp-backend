@@ -2,6 +2,8 @@ package com.jmp.gestion_notes.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +25,7 @@ public class Matiere {
 	private Module module;
 	
 	@OneToMany(mappedBy="matiere")
+	@JsonIgnore
 	List<Note> notes;
 	
 	@ManyToOne

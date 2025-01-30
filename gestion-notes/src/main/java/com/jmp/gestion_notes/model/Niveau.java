@@ -1,11 +1,16 @@
 package com.jmp.gestion_notes.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Niveau {
@@ -23,6 +28,10 @@ public class Niveau {
 	@ManyToOne
 	@JoinColumn(name="id_niveau_suivant")
 	private Niveau niveauSuivant;
+	
+	@OneToMany(mappedBy = "niveau")
+	@JsonIgnore
+	private List<Etudiant> etudiants;
 	
 	// constructors
 	public Niveau() {}
