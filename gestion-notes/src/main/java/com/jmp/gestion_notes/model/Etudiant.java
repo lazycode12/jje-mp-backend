@@ -1,8 +1,11 @@
 package com.jmp.gestion_notes.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
+
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,10 +27,13 @@ public class Etudiant {
 	@JoinColumn(name="id_niveau")
 	private Niveau niveau;
 	
-	@OneToMany(mappedBy="etudiant")
-	@JsonIgnore
-	List<Note> notes;
-	
+    @OneToMany(mappedBy = "etudiant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<NoteEtudiant> notes = new ArrayList<>();
+    
+//	@OneToMany(mappedBy="etudiant")
+//	@JsonIgnore
+//	List<Note> notes;
+//	
 	public Etudiant() {}
 
 	public Etudiant(String cne, String nom, String prenom) {
@@ -45,12 +51,22 @@ public class Etudiant {
 	public void setNiveau(Niveau niveau) {
 		this.niveau = niveau;
 	}
+	
+	
 
-	public List<Note> getNotes() {
+//	public List<Note> getNotes() {
+//		return notes;
+//	}
+//
+//	public void setNotes(List<Note> notes) {
+//		this.notes = notes;
+//	}
+
+	public List<NoteEtudiant> getNotes() {
 		return notes;
 	}
 
-	public void setNotes(List<Note> notes) {
+	public void setNotes(List<NoteEtudiant> notes) {
 		this.notes = notes;
 	}
 

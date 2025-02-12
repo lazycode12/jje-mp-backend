@@ -34,6 +34,10 @@ public class EtudiantService {
 		return etudiantRepo.findAll();
 	}
 	
+	public Etudiant getEtudiantByCne(String cne) {
+		return etudiantRepo.findByCne(cne);
+	}
+	
 	public Etudiant updateEtudiant(Etudiant updateetudiant, Long id) {
 		Etudiant etudiant = getEtudiantById(id);
 		

@@ -31,6 +31,8 @@ public class Utilisateur {
 
 	public Utilisateur(String role) {
 		this.role = role;
+		this.enabled = true;  // Set enabled to true
+	    this.locked = false;
 	}
 	
 	

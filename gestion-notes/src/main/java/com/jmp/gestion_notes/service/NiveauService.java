@@ -42,9 +42,19 @@ public class NiveauService {
 		return niveauRepository.findAll();
 	}
 	
-	public Niveau updateNiveau(Niveau updateNiveau, Long id) {
+	public Niveau updateNiveau(Niveau updateNiveau, Long id, Long id_niveau_suivant) {
 		Niveau niveau = getNiveaueById(id);
 		niveau.setAlias(updateNiveau.getAlias());
+		niveau.setIntitule(updateNiveau.getIntitule());
+		
+		
+		if(id_niveau_suivant != null) {
+			Niveau n = niveauRepository.findById(id_niveau_suivant).orElseThrow(() -> new ResourceNotFoundException("Niveau", "id", id_niveau_suivant));
+			niveau.setNiveauSuivant(n);
+		}else {
+			niveau.setNiveauSuivant(null);
+		}
+		
 		return niveauRepository.save(niveau);
 	}
 	

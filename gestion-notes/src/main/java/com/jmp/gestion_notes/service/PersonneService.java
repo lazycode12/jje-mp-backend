@@ -8,14 +8,17 @@ import org.springframework.stereotype.Service;
 import com.jmp.gestion_notes.exception.ResourceNotFoundException;
 import com.jmp.gestion_notes.model.Personne;
 import com.jmp.gestion_notes.repo.PersonneRepository;
+import com.jmp.gestion_notes.repo.UtilisateurRepository;
 
 @Service
 public class PersonneService {
 	private final PersonneRepository personneRepository;
+	private final UtilisateurRepository utilisateurRepository;
 
 	@Autowired
-	public PersonneService(PersonneRepository personneRepository) {
+	public PersonneService(PersonneRepository personneRepository, UtilisateurRepository utilisateurRepository) {
 		this.personneRepository = personneRepository;
+		this.utilisateurRepository = utilisateurRepository;
 	}
 	
 	// create Personne
@@ -42,6 +45,10 @@ public class PersonneService {
 	public Personne getPersonneById(long id) {
 		return personneRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Personne", "id", id));
 	}
+	
+    public boolean hasAccount(Personne personne) {
+        return utilisateurRepository.existsByPersonne(personne);
+    }
 	
 	public void deletePersonne(Long id) {
 		Personne Personne = getPersonneById(id);

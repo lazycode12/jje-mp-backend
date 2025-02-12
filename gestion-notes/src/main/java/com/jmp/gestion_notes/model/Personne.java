@@ -1,9 +1,15 @@
 package com.jmp.gestion_notes.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Personne {
@@ -12,6 +18,9 @@ public class Personne {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nom, prenom, cin, email, tele;
+    @OneToMany(mappedBy = "personne", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@JsonIgnore
+    private List<Utilisateur> utilisateurs;
 	
 	public Personne() {}
 

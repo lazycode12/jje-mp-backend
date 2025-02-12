@@ -46,8 +46,8 @@ public class NiveauController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<Niveau> updateNiveau(@PathVariable Long id, @RequestBody Niveau Niveau){
-    	Niveau updateNiveau = niveauService.updateNiveau(Niveau, id);
+    public ResponseEntity<Niveau> updateNiveau(@PathVariable Long id, @RequestBody Niveau Niveau, @RequestParam Long id_niveau_suivant){
+    	Niveau updateNiveau = niveauService.updateNiveau(Niveau, id, id_niveau_suivant);
     	return new ResponseEntity<>(updateNiveau, HttpStatus.OK);
     }
     

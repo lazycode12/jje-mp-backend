@@ -1,6 +1,9 @@
 package com.jmp.gestion_notes.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,16 +15,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jmp.gestion_notes.model.Personne;
+import com.jmp.gestion_notes.model.Utilisateur;
 import com.jmp.gestion_notes.service.PersonneService;
+import com.jmp.gestion_notes.repo.UtilisateurRepository;
 
 @RestController
 @RequestMapping("/personnes")
 public class PersonneController {
 	@Autowired
 	private PersonneService personneService;
+	
+	 @Autowired
+	 private UtilisateurRepository utilisateurRepository;
 	
 	// endpoint to get all personnes
     @GetMapping("")
@@ -35,6 +44,23 @@ public class PersonneController {
     public ResponseEntity<Personne> getPersonneById(@PathVariable Long id){
     	Personne personne = personneService.getPersonneById(id);
     	return new ResponseEntity<>(personne, HttpStatus.OK);
+    }
+    
+    @GetMapping("/hasAccount")
+    public ResponseEntity<Map<String, Object>> hasAccount(@RequestParam Long id) {
+        Personne personne = personneService.getPersonneById(id);
+
+        Map<String, Object> response = new HashMap<>();
+        
+        boolean hasAccount = personneService.hasAccount(personne);
+        Optional<Utilisateur> user = utilisateurRepository.findByPersonne(personne);
+        if(hasAccount) {
+        	response.put("role", user.get().getRole());
+        }
+        
+        response.put("hasAccount", hasAccount);
+
+        return ResponseEntity.ok(response);
     }
     
     @PostMapping("")

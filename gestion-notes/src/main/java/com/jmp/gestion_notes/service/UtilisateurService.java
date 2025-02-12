@@ -40,6 +40,8 @@ public class UtilisateurService {
 		String login = personne.getNom() + personne.getPrenom();
 		
 		//set the login and password and link the user to specific personne
+		utilisateur.setEnabled(true);
+		utilisateur.setLocked(false);
 		utilisateur.setLogin(login);
 		utilisateur.setPassword(encoder.encode(password));
 		utilisateur.setPersonne(personne);
@@ -58,6 +60,10 @@ public class UtilisateurService {
 		return utilisateurRepository.findAll();
 	}
 	
+    public boolean hasAccount(Personne personne) {
+        return utilisateurRepository.existsByPersonne(personne);
+    }
+    
 	public Utilisateur updateUtilisateur(Utilisateur updateUtilisateur, Long id) {
 		Utilisateur Utilisateur = getUtilisateurById(id);
 		

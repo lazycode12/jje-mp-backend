@@ -55,6 +55,10 @@ public class ModuleService {
 		return moduleRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("module", "id", id));
 	}
 	
+    public List<Module> getModulesByNiveauId(Long niveauId) {
+        return moduleRepository.findByNiveauId(niveauId);
+    }
+	
 	public void deleteModule(Long id) {
 		Module module = getModuleById(id);
 		moduleRepository.delete(module);
@@ -62,5 +66,9 @@ public class ModuleService {
 	
     public Module getModuleByTitre(String titre) {
         return moduleRepository.findByTitre(titre);
+    }
+    
+    public Module getModuleBycode(String code) {
+        return moduleRepository.findByCode(code);
     }
 }

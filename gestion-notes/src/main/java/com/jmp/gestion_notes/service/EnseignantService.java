@@ -41,6 +41,10 @@ public class EnseignantService {
 		return enseignantRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("etudiant", "id", id));
 	}
 	
+	public Enseignant getEnseignantByNomAndPrenom(String nom, String prenom) {
+		return enseignantRepository.findByNomAndPrenom(nom,prenom);
+	}
+	
 	public void deleteEnseignant(Long id) {
 		Enseignant e = getEnseignantById(id);
 		enseignantRepository.delete(e);

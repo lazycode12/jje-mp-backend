@@ -38,6 +38,14 @@ public class EtudiantController {
     	return new ResponseEntity<>(etudiant, HttpStatus.OK);
     }
     
+    // endpoint to get a specific etudiant by cne
+    @GetMapping("/bycne")
+    public ResponseEntity<Etudiant> getEtudiantByCne(@RequestParam String cne){
+    	Etudiant etudiant = etudiantService.getEtudiantByCne(cne);
+    	return new ResponseEntity<>(etudiant, HttpStatus.OK);
+    }
+    
+    
     @PostMapping("")
     public ResponseEntity<Etudiant> createEtudiant(@RequestBody Etudiant etudiant, @RequestParam Long id_niveau){
     	Etudiant Newetudiant = etudiantService.addEtudiant(etudiant, id_niveau);

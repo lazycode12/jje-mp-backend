@@ -3,6 +3,8 @@ package com.jmp.gestion_notes.controller;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +38,18 @@ public class ExcelController {
                 .body(resource);
     }
     
+    @GetMapping("/download/delinotes")
+    public ResponseEntity<ByteArrayResource> downloadDeliNotes(@RequestParam Long id_niveau) throws Exception {
+    	byte[] excelBytes = excelService.generateDeliberationFile(id_niveau);
+    	
+        // Prepare response
+        ByteArrayResource resource = new ByteArrayResource(excelBytes);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=collect-deliberation-notes-niveau.xlsx")
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(resource);
+    }
+    
     @PostMapping("/upload/collectnotes")
     public ResponseEntity<String> importCollectNotes(@RequestParam("file") MultipartFile file){
         try {
@@ -52,6 +66,64 @@ public class ExcelController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to process the file.");
         }
+    }
+    
+    @PostMapping("/upload/delinotes")
+    public ResponseEntity<String> importDeliNotes(@RequestParam("file") MultipartFile file){
+        // Validate file type
+        if (!file.getContentType().equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
+            return ResponseEntity.badRequest().body("Invalid file type. Please upload an Excel file.");
+        }
+        
+        // Process the file
+        try {
+			excelService.importer_deliberation_note(file);
+			
+			return ResponseEntity.ok("File uploaded and processed successfully!");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to process the file.");
+		}
+    }
+    
+    @PostMapping("/upload/inscription")
+    public ResponseEntity<String> importInscription(@RequestParam("file") MultipartFile file){
+        // Validate file type
+        if (!file.getContentType().equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
+            return ResponseEntity.badRequest().body("Invalid file type. Please upload an Excel file.");
+        }
+        
+        // Process the file
+        try {
+			excelService.importer_inscription_reinscription(file);
+			
+			return ResponseEntity.ok("File uploaded and processed successfully!");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to process the file.");
+		}
+    }
+    
+    
+    @PostMapping("/upload/sp")
+    public ResponseEntity<String> importSp(@RequestParam("file") MultipartFile file){
+        // Validate file type
+        if (!file.getContentType().equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
+            return ResponseEntity.badRequest().body("Invalid file type. Please upload an Excel file.");
+        }
+        
+        // Process the file
+        try {
+			excelService.importer_sp(file);
+			
+			return ResponseEntity.ok("File uploaded and processed successfully!");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to process the file.");
+		}
     }
 
 }
