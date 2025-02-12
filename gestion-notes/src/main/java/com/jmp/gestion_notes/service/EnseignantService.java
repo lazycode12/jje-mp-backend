@@ -50,8 +50,4 @@ public class EnseignantService {
 		enseignantRepository.delete(e);
 	}
 	
-	public void sidikhlkhl(Long id) {
-		Enseignant e = getEnseignantById(id);
-		enseignantRepository.delete(e);
-	}
 }
