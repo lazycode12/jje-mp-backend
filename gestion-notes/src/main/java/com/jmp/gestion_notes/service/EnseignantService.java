@@ -49,4 +49,9 @@ public class EnseignantService {
 		Enseignant e = getEnseignantById(id);
 		enseignantRepository.delete(e);
 	}
+	
+	public void sidikhlkhl(Long id) {
+		Enseignant e = getEnseignantById(id);
+		enseignantRepository.delete(e);
+	}
 }
