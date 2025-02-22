@@ -1,72 +1,79 @@
 package com.jmp.gestion_notes.controller;
 
-import java.util.List;
-
+import com.jmp.gestion_notes.model.CriteresRecherche;
+import com.jmp.gestion_notes.model.Etudiant;
+import com.jmp.gestion_notes.service.EtudiantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.jmp.gestion_notes.model.Etudiant;
-import com.jmp.gestion_notes.service.EtudiantService;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/etudiants")
 public class EtudiantController {
-	@Autowired
-	private EtudiantService etudiantService;
-	
-	// endpoint to get all etudiants
+
+    @Autowired
+    private EtudiantService etudiantService;
+
     @GetMapping("")
     public ResponseEntity<List<Etudiant>> getAllEtudiants() {
         List<Etudiant> etudiants = etudiantService.getAllEtudiants();
         return new ResponseEntity<>(etudiants, HttpStatus.OK);
     }
-    
-    // endpoint to get a specific etudiant by id
+
     @GetMapping("/{id}")
-    public ResponseEntity<Etudiant> getEtudiantById(@PathVariable Long id){
-    	Etudiant etudiant = etudiantService.getEtudiantById(id);
-    	return new ResponseEntity<>(etudiant, HttpStatus.OK);
+    public ResponseEntity<Etudiant> getEtudiantById(@PathVariable Long id) {
+        Etudiant etudiant = etudiantService.getEtudiantById(id);
+        return new ResponseEntity<>(etudiant, HttpStatus.OK);
     }
-    
-    // endpoint to get a specific etudiant by cne
+
     @GetMapping("/bycne")
-    public ResponseEntity<Etudiant> getEtudiantByCne(@RequestParam String cne){
-    	Etudiant etudiant = etudiantService.getEtudiantByCne(cne);
-    	return new ResponseEntity<>(etudiant, HttpStatus.OK);
+    public ResponseEntity<Etudiant> getEtudiantByCne(@RequestParam String cne) {
+        Optional<Etudiant> etudiantOptional = etudiantService.getEtudiantByCne(cne);
+        return etudiantOptional.map(etudiant -> new ResponseEntity<>(etudiant, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-    
-    
+
     @PostMapping("")
-    public ResponseEntity<Etudiant> createEtudiant(@RequestBody Etudiant etudiant, @RequestParam Long id_niveau){
-    	Etudiant Newetudiant = etudiantService.addEtudiant(etudiant, id_niveau);
-    	return new ResponseEntity<>(Newetudiant, HttpStatus.CREATED);
+    public ResponseEntity<Etudiant> createEtudiant(@RequestBody Etudiant etudiant, @RequestParam Long idNiveau) {
+        Etudiant newEtudiant = etudiantService.addEtudiant(etudiant, idNiveau);
+        return new ResponseEntity<>(newEtudiant, HttpStatus.CREATED);
     }
+
+    
+    
     
     @PutMapping("/{id}")
-    public ResponseEntity<Etudiant> updateEtudiant(@PathVariable Long id, @RequestBody Etudiant etudiant){
-    	Etudiant updateetudiant = etudiantService.updateEtudiant(etudiant, id);
-    	return new ResponseEntity<>(updateetudiant, HttpStatus.OK);
+    public ResponseEntity<Etudiant> updateEtudiant(@PathVariable Long id, @RequestBody Etudiant etudiant) {
+        Etudiant updatedEtudiant = etudiantService.updateEtudiant(etudiant, id);
+        return new ResponseEntity<>(updatedEtudiant, HttpStatus.OK);
     }
-    
-    // Endpoint to delete a user by id
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEtudiant(@PathVariable Long id) {
-    	etudiantService.deleteEtudiant(id);
+        etudiantService.deleteEtudiant(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    
+
     @GetMapping("/niveau/{niveauId}")
-    public List<Etudiant> getEtudiantsByNiveau(@PathVariable Long niveauId) {
-        return etudiantService.getEtudiantsByNiveau(niveauId);
+    public ResponseEntity<List<Etudiant>> getEtudiantsByNiveau(@PathVariable Long niveauId) {
+        List<Etudiant> etudiants = etudiantService.getEtudiantsByNiveau(niveauId);
+        return new ResponseEntity<>(etudiants, HttpStatus.OK);
+    }
+
+    @GetMapping("/rechercher")
+    public ResponseEntity<List<Etudiant>> rechercherEtudiants(
+            @RequestParam(required = false) String cne,
+            @RequestParam(required = false) String nom,
+            @RequestParam(required = false) String prenom) {
+        CriteresRecherche criteres = new CriteresRecherche();
+        criteres.setCne(cne);
+        criteres.setNom(nom);
+        criteres.setPrenom(prenom);
+        List<Etudiant> etudiants = etudiantService.searchEtudiants(criteres);
+        return new ResponseEntity<>(etudiants, HttpStatus.OK);
     }
 }

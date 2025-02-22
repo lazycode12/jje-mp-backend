@@ -17,85 +17,96 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Module {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String code, titre;
-	
-	@ManyToOne
-	@JoinColumn(name="id_niveau")
-	private Niveau niveau;
-	
-	@ManyToOne
-	@JoinColumn(name="id_responsable")
-	private Enseignant resp;
-	
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String code, titre;
+
+    @ManyToOne
+    @JoinColumn(name = "id_niveau")
+    private Niveau niveau;
+
+    @ManyToOne
+    @JoinColumn(name = "id_responsable")
+    private Enseignant resp;
+
     @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<NoteEtudiant> notes = new ArrayList<>();
-	
-	public Module() {
-		super();
-	}
 
-	public Module(String code, String titre) {
-		super();
-		this.code = code;
-		this.titre = titre;
-	}
-	
-	
+    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Matiere> matieres = new ArrayList<>();
 
-	public Enseignant getResp() {
-		return resp;
-	}
+    public Module() {
+        super();
+    }
 
-	public void setResp(Enseignant resp) {
-		this.resp = resp;
-	}
+    public Module(String code, String titre) {
+        super();
+        this.code = code;
+        this.titre = titre;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    // Getters and Setters
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public String getTitre() {
-		return titre;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public void setTitre(String titre) {
-		this.titre = titre;
-	}
-	
-	
+    public String getTitre() {
+        return titre;
+    }
 
-	public Niveau getNiveau() {
-		return niveau;
-	}
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
 
-	public void setNiveau(Niveau niveau) {
-		this.niveau = niveau;
-	}
+    public Niveau getNiveau() {
+        return niveau;
+    }
 
-	@Override
-	public String toString() {
-		return "Module [id=" + id + ", code=" + code + ", titre=" + titre + "]";
-	}
-	
-	
-	
-	
-	
-	
+    public void setNiveau(Niveau niveau) {
+        this.niveau = niveau;
+    }
+
+    public Enseignant getResp() {
+        return resp;
+    }
+
+    public void setResp(Enseignant resp) {
+        this.resp = resp;
+    }
+
+    public List<NoteEtudiant> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<NoteEtudiant> notes) {
+        this.notes = notes;
+    }
+
+    public List<Matiere> getMatieres() {
+        return matieres;
+    }
+
+    public void setMatieres(List<Matiere> matieres) {
+        this.matieres = matieres;
+    }
+
+    @Override
+    public String toString() {
+        return "Module [id=" + id + ", code=" + code + ", titre=" + titre + "]";
+    }
 }

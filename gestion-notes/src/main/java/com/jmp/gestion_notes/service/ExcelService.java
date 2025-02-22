@@ -50,7 +50,7 @@ public class ExcelService {
 	public byte[] generateCollectNotesParModule(Long id_semester, Long id_niveau, Long id_module) {
 	    
 	    Semester semester = semesterService.getSemesterById(id_semester);
-	    Niveau niveau = niveauService.getNiveaueById(id_niveau);
+	    Niveau niveau = niveauService.getNiveauById(id_niveau);
 	    Module module = moduleService.getModuleById(id_module);
 	    
 	    // List of students by level
@@ -218,7 +218,7 @@ public class ExcelService {
 	 
 	 public byte[] generateDeliberationFile(Long id_niveau) {
 		 
-		 Niveau niveau = niveauService.getNiveaueById(id_niveau);
+		 Niveau niveau = niveauService.getNiveauById(id_niveau);
 		 List<Module> modules = moduleService.getModulesByNiveauId(id_niveau);
 		 List<Etudiant> etudiants = etudiantService.getEtudiantsByNiveau(id_niveau);
 		 
@@ -374,7 +374,7 @@ public class ExcelService {
 	            	etudiantService.addEtudiant(etudiant, id_niveau);
 	            }else {
 	            	Etudiant etudiant = etudiantService.getEtudiantById(id_etudiant);
-	            	etudiant.setNiveau(niveauService.getNiveaueById(id_niveau));
+	            	etudiant.setNiveau(niveauService.getNiveauById(id_niveau));
 	            }
 	            
 	            
@@ -479,6 +479,9 @@ public class ExcelService {
 		 }
 		 
 	 }
+	 
+	 
+	 
 	 
 	 
 }

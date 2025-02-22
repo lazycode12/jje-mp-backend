@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,7 +22,10 @@ public class Etudiant {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String cne, nom, prenom;
+	private String nom, prenom;
+	
+	@Column(unique = true)  // Ensure CNE is unique
+    private String cne;
 	
 	@ManyToOne
 	@JoinColumn(name="id_niveau")

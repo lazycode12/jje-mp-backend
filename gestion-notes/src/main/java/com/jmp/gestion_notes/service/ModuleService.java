@@ -9,7 +9,7 @@ import com.jmp.gestion_notes.exception.ResourceNotFoundException;
 import com.jmp.gestion_notes.model.Module;
 import com.jmp.gestion_notes.model.Niveau;
 import com.jmp.gestion_notes.model.Enseignant;
-
+import com.jmp.gestion_notes.model.Etudiant;
 import com.jmp.gestion_notes.repo.ModuleRepository;
 import com.jmp.gestion_notes.repo.NiveauRepository;
 import com.jmp.gestion_notes.repo.EnseignantRepository;
@@ -70,5 +70,15 @@ public class ModuleService {
     
     public Module getModuleBycode(String code) {
         return moduleRepository.findByCode(code);
+    }
+
+	public List<Module> getFailedModulesForEtudiant(Etudiant etudiant) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    public List<Module> getModulesNiveauSuivant(Long idNiveauCourant) {
+        // Implement logic to get the list of modules for the next level
+        return null;
     }
 }

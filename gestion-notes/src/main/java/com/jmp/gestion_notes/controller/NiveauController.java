@@ -35,7 +35,7 @@ public class NiveauController {
     // endpoint to get a specific Niveau by id
     @GetMapping("/{id}")
     public ResponseEntity<Niveau> getNiveauById(@PathVariable Long id){
-    	Niveau Niveau = niveauService.getNiveaueById(id);
+    	Niveau Niveau = niveauService.getNiveauById(id);
     	return new ResponseEntity<>(Niveau, HttpStatus.OK);
     }
     
