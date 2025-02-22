@@ -31,6 +31,8 @@ public class ExcelGenerationService {
      * @param session  The session type (NORMAL or RATTRAPAGE).
      * @return A byte array representing the Excel file.
      */
+    
+    
     public byte[] generateModuleGradesFile(Long moduleId, SessionType session) throws IOException {
         Module module = moduleService.getModuleById(moduleId);
         List<Etudiant> etudiants = etudiantService.getEtudiantsByNiveau(module.getNiveau().getId());
@@ -52,8 +54,10 @@ public class ExcelGenerationService {
             }
 
             // Add columns for Moyenne and Validation
-            headerRow.createCell(colIndex).setCellValue("Moyenne");
-            headerRow.createCell(colIndex + 1).setCellValue("Validation");
+            int moyenneColIndex = colIndex;
+            headerRow.createCell(moyenneColIndex).setCellValue("Moyenne");
+            int validationColIndex = colIndex + 1;
+            headerRow.createCell(validationColIndex).setCellValue("Validation");
 
             // Fill data rows
             int rowIndex = 1;
@@ -69,12 +73,18 @@ public class ExcelGenerationService {
                     row.createCell(4 + i).setCellValue("");
                 }
 
-                // Add formulas for Moyenne and Validation
-                Cell moyenneCell = row.createCell(4 + module.getMatieres().size());
-                moyenneCell.setCellFormula("AVERAGE(D" + (rowIndex) + ":H" + (rowIndex) + ")"); // Adjust range as needed
+                // Dynamically calculate the range for Moyenne
+                char startGradeCol = 'D'; // First column for grades
+                char endGradeCol = (char) ('D' + module.getMatieres().size() - 1); // Last column for grades
+                String moyenneFormula = "AVERAGE(" + startGradeCol + rowIndex + ":" + endGradeCol + rowIndex + ")";
+                Cell moyenneCell = row.createCell(moyenneColIndex);
+                moyenneCell.setCellFormula(moyenneFormula);
 
-                Cell validationCell = row.createCell(4 + module.getMatieres().size() + 1);
-                validationCell.setCellFormula("IF(I" + (rowIndex) + ">=12, \"V\", IF(I" + (rowIndex) + ">=8, \"R\", \"NV\"))"); // Adjust thresholds as needed
+                // Dynamically calculate the column for Validation
+                char moyenneCol = (char) ('D' + module.getMatieres().size());
+                String validationFormula = "IF(" + moyenneCol + rowIndex + ">=12, \"V\", IF(" + moyenneCol + rowIndex + ">=8, \"R\", \"NV\"))";
+                Cell validationCell = row.createCell(validationColIndex);
+                validationCell.setCellFormula(validationFormula);
             }
 
             workbook.write(out);
@@ -82,15 +92,18 @@ public class ExcelGenerationService {
         }
     }
 
-    /**
-     * Generate an Excel file for final deliberations.
-     *
-     * @param niveauId The ID of the niveau.
-     * @return A byte array representing the Excel file.
-     */
+    
+    
     public byte[] generateDeliberationFile(Long niveauId) throws IOException {
         Niveau niveau = niveauService.getNiveauById(niveauId);
+        if (niveau == null) {
+            throw new IllegalArgumentException("Niveau with ID " + niveauId + " not found");
+        }
+
         List<Etudiant> etudiants = etudiantService.getEtudiantsByNiveau(niveauId);
+        if (etudiants.isEmpty()) {
+            throw new IllegalArgumentException("No students found for niveau ID " + niveauId);
+        }
 
         try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             Sheet sheet = workbook.createSheet("Deliberation");
@@ -138,4 +151,6 @@ public class ExcelGenerationService {
             return out.toByteArray();
         }
     }
+  
+    
 }
