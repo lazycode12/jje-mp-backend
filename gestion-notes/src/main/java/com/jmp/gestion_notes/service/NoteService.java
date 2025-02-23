@@ -2,6 +2,7 @@ package com.jmp.gestion_notes.service;
 
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import com.jmp.gestion_notes.model.Note;
 import com.jmp.gestion_notes.model.Etudiant;
 import com.jmp.gestion_notes.model.Matiere;
 import com.jmp.gestion_notes.model.Semester;
-
+import com.jmp.gestion_notes.model.SessionType;
 import com.jmp.gestion_notes.repo.NoteRepository;
 import com.jmp.gestion_notes.repo.EtudiantRepository;
 import com.jmp.gestion_notes.repo.SemesterRepository;
@@ -23,6 +24,10 @@ public class NoteService {
 	private final EtudiantRepository etudiantRepository;
 	private final SemesterRepository semesterRepository;
 	private final MatiereRepository matiereRepository;
+	
+	private EtudiantService etudiantService;
+	
+	private ModuleService moduleService;
 	
 	@Autowired
 	public NoteService(
@@ -59,12 +64,12 @@ public class NoteService {
 	public Note updateNote(Note updatenote, Long id) {
 		Note note = getNoteById(id);
 		
-		note.setValeur(updatenote.getValeur());
+		note.setNote(updatenote.getValeur());
 		
 		return noteRepository.save(note);
 	}
 	
-	public Note getNoteById(long id) {
+	public Note getNoteById(Long id) {
 		return noteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("note", "id", id));
 	}
 	
@@ -72,5 +77,13 @@ public class NoteService {
 		Note n = getNoteById(id);
 		noteRepository.delete(n);
 	}
+	
+	 
+	 public void saveNote(Note note) {
+	        noteRepository.save(note);
+	    }
+	 
+	 
+
 	
 }

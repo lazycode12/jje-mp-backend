@@ -35,7 +35,7 @@ public class ModuleService {
 		Enseignant resp = enseignantRepository.findById(id_resp).orElseThrow(() -> new ResourceNotFoundException("enseignant", "id", id_niveau));
 		
 		module.setNiveau(niveau);
-		module.setResp(resp);
+		module.setResponsable(resp);
 		
 		return moduleRepository.save(module);
 	}

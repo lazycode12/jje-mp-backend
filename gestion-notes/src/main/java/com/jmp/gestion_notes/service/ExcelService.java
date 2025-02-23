@@ -75,7 +75,7 @@ public class ExcelService {
 	    
 	    Row headerRow2 = sheet.createRow(1);
 	    headerRow2.createCell(0).setCellValue("Enseignant");
-	    headerRow2.createCell(1).setCellValue(module.getResp().getPrenom() + " " + module.getResp().getNom());
+	    headerRow2.createCell(1).setCellValue(module.getResponsable().getPrenom() + " " + module.getResponsable().getNom());
 	    
 	    headerRow2.createCell(2).setCellValue("Session");
 	    headerRow2.createCell(3).setCellValue(semester.getSession());
