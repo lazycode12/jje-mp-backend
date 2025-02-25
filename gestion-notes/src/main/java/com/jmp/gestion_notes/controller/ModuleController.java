@@ -24,7 +24,7 @@ public class ModuleController {
 	@Autowired
 	private ModuleService moduleService;
 	
-	// endpoint to get all filieres
+	// endpoint to get all modules
     @GetMapping("")
     public ResponseEntity<List<Module>> getAllUsers() {
         List<Module> modules = moduleService.getAllModules();

@@ -40,8 +40,8 @@ public class NoteEtudiantController {
     }
     
     @GetMapping("/singlenote")
-    public ResponseEntity<NoteEtudiant> getNoteEtudiantById(@RequestParam Long id_etudiant, @RequestParam Long id_module, @RequestParam String anneEtude){
-    	NoteEtudiant not = noteEtudiantService.getSingleNote(id_etudiant, id_module, anneEtude);
+    public ResponseEntity<NoteEtudiant> getNoteEtudiantById(@RequestParam String cne, @RequestParam Long id_module, @RequestParam String anneEtude){
+    	NoteEtudiant not = noteEtudiantService.getSingleNote(cne, id_module, anneEtude);
     	return new ResponseEntity<>(not, HttpStatus.OK);
     }
     

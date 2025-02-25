@@ -148,10 +148,7 @@ public class ExcelService {
 	    return outputStream.toByteArray();
 	}
 	
-	
-	
-	
-	
+
 	
 	//  importer Fichiers de collecte des notes par module
 	 public void importer_collect_notes(MultipartFile file) throws IOException {
@@ -444,7 +441,7 @@ public class ExcelService {
 		         if(niveau_suivant.equals("null")) {
 		        	 niveauService.createNiveau(new Niveau(alias,intitule), filiere.getId(), null);
 		         }else {
-		        	 Niveau niveau = niveauService.getNiveauByAlias(alias);
+		        	 Niveau niveau = niveauService.getNiveauByAlias(niveau_suivant);
 		        	 niveauService.createNiveau(new Niveau(alias,intitule), filiere.getId(), niveau.getId());
 		         }
 	         }

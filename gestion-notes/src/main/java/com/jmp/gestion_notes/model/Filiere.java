@@ -2,6 +2,8 @@ package com.jmp.gestion_notes.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +21,13 @@ public class Filiere {
 	private Long id;
 	private String alias, intitule, anne_accreditation, anne_fin_accreditation;
 	private float x, y;
+	
+
+	
+	
+//	@OneToMany(mappedBy = "filiere", cascade = CascadeType.ALL)
+//	@JsonIgnore
+//	private List<Niveau> niveaux;
 	
 	@ManyToOne
 	@JoinColumn(name="id_coordinateur")
@@ -111,19 +120,16 @@ public class Filiere {
 				+ "]";
 	}
 	
-	
-	@OneToMany(mappedBy = "filiere", cascade = CascadeType.ALL)
-	private List<Niveau> niveaux;
 
 
-	 // getters and setters
-	 public List<Niveau> getNiveaux() {
-	     return niveaux;
-	 }
-
-	 public void setNiveaux(List<Niveau> niveaux) {
-	     this.niveaux = niveaux;
-	 }
+//	 // getters and setters
+//	 public List<Niveau> getNiveaux() {
+//	     return niveaux;
+//	 }
+//
+//	 public void setNiveaux(List<Niveau> niveaux) {
+//	     this.niveaux = niveaux;
+//	 }
 
 	
 	

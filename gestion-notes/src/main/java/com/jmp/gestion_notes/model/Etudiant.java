@@ -57,6 +57,8 @@ public class Etudiant {
 	}
 	
 	
+	
+	
 
 //	public List<Note> getNotes() {
 //		return notes;

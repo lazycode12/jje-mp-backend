@@ -1,7 +1,11 @@
 package com.jmp.gestion_notes.model;
 
+import com.jmp.gestion_notes.enums.Role;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,7 +18,12 @@ public class Utilisateur {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String role, login, password;
+	private String login, password;
+	
+	// user role
+    @Column(nullable = true)
+    @Enumerated(EnumType.STRING)
+    private Role role;
 	
 	@Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1") // Default value is 1
 	private boolean enabled;
@@ -29,7 +38,7 @@ public class Utilisateur {
 	
 	public Utilisateur() {}
 
-	public Utilisateur(String role) {
+	public Utilisateur(Role role) {
 		this.role = role;
 		this.enabled = true;  // Set enabled to true
 	    this.locked = false;
@@ -45,11 +54,11 @@ public class Utilisateur {
 		this.id = id;
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 

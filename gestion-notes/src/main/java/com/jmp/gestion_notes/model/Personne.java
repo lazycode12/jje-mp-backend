@@ -18,6 +18,7 @@ public class Personne {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nom, prenom, cin, email, tele;
+	
     @OneToMany(mappedBy = "personne", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@JsonIgnore
     private List<Utilisateur> utilisateurs;

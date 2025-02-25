@@ -10,4 +10,5 @@ import com.jmp.gestion_notes.model.Utilisateur;
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Long> {
 	boolean existsByPersonne(Personne personne);
 	Optional<Utilisateur> findByPersonne(Personne personne);
+	Optional<Utilisateur> findByLogin(String login);
 }

@@ -32,7 +32,7 @@ public class Niveau {
     private Niveau niveauSuivant;
 
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_filiere")
 	private Filiere filiere;
 	
@@ -50,6 +50,7 @@ public class Niveau {
 	}
 	
 	 @OneToMany(mappedBy = "niveau", cascade = CascadeType.ALL, orphanRemoval = true)
+	 @JsonIgnore
 	    private List<Module> modules = new ArrayList<>();
 
 

@@ -30,11 +30,12 @@ public class Module {
     @JoinColumn(name = "id_responsable")
     private Enseignant resp;
 
+//    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonIgnore
+//    private List<NoteEtudiant> notes = new ArrayList<>();
+//
     @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<NoteEtudiant> notes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Matiere> matieres = new ArrayList<>();
 
     public Module() {
@@ -89,14 +90,14 @@ public class Module {
         this.resp = resp;
     }
 
-    public List<NoteEtudiant> getNotes() {
-        return notes;
-    }
-
-    public void setNotes(List<NoteEtudiant> notes) {
-        this.notes = notes;
-    }
-
+//    public List<NoteEtudiant> getNotes() {
+//        return notes;
+//    }
+//
+//    public void setNotes(List<NoteEtudiant> notes) {
+//        this.notes = notes;
+//    }
+//
     public List<Matiere> getMatieres() {
         return matieres;
     }

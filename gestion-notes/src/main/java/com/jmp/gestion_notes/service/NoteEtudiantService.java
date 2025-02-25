@@ -55,8 +55,9 @@ public class NoteEtudiantService {
 		return noteEtudiantRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("notetudiant", "id", id));
 	}
 	
-	public NoteEtudiant getSingleNote(long id_etudiant, Long id_module, String anneEtude) {
-		return noteEtudiantRepository.findByEtudiantIdAndModuleIdAndAnneEtude(id_etudiant, id_module, anneEtude);
+	public NoteEtudiant getSingleNote(String cne, Long id_module, String anneEtude) {
+		Long id = etudiantService.getEtudiantByCne(cne).get().getId();
+		return noteEtudiantRepository.findByEtudiantIdAndModuleIdAndAnneEtude(id, id_module, anneEtude);
 	}
 	
 	public void deleteNoteEtudiant(Long id) {

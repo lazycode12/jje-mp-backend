@@ -12,10 +12,11 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                // Allow all endpoints for development
                 registry.addMapping("/**")
-                    .allowedOrigins("http://localhost:4200") // Angular's URL
-                    .allowedMethods("GET", "POST", "PUT", "DELETE");
+                    .allowedOrigins("http://localhost:4200") // Allow Angular frontend
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                    .allowedHeaders("Authorization", "Content-Type") // Allow Authorization header
+                    .allowCredentials(true); // Allow cookies and authentication headers
             }
         };
     }

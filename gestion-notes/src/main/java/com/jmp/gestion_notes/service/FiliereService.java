@@ -40,7 +40,7 @@ public class FiliereService {
 		filiere.setAlias(updatefiliere.getAlias());
 		filiere.setIntitule(updatefiliere.getIntitule());
 		filiere.setAnne_fin_accreditation(updatefiliere.getAnne_fin_accreditation());
-		filiere.setAnne_fin_accreditation(updatefiliere.getAnne_accreditation());
+		filiere.setAnne_accreditation(updatefiliere.getAnne_accreditation());
 		filiere.setX(updatefiliere.getX());
 		filiere.setY(updatefiliere.getY());
 		

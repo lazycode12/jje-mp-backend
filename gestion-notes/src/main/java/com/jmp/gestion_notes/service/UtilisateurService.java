@@ -37,7 +37,7 @@ public class UtilisateurService {
 		
 		//generate login and password
 		String password = generatePassword();
-		String login = personne.getNom() + personne.getPrenom();
+		String login = generateUniqueLogin(personne.getPrenom(), personne.getNom());
 		
 		//set the login and password and link the user to specific personne
 		utilisateur.setEnabled(true);
@@ -107,7 +107,17 @@ public class UtilisateurService {
     	return pw;
     }
 	
-	
+    // Générer un login unique
+    private String generateUniqueLogin(String firstName, String lastName) {
+        String baseLogin = firstName.toLowerCase() + lastName.toLowerCase();
+        String login = baseLogin;
+        int counter = 1;
+        while (utilisateurRepository.findByLogin(login).isPresent()) {
+            login = baseLogin + counter;
+            counter++;
+        }
+        return login;
+    }
 	
 	
 	
