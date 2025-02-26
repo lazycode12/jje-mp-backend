@@ -69,8 +69,8 @@ public class UtilisateurService {
 		
 		Utilisateur.setRole(updateUtilisateur.getRole());
 		Utilisateur.setLogin(updateUtilisateur.getLogin());
-//		todo: hashed password and generate password
-//		Utilisateur.setPassword(updateUtilisateur.getPassword());
+		Utilisateur.setEnabled(updateUtilisateur.isEnabled());
+		Utilisateur.setLocked(updateUtilisateur.isLocked());
 
 		
 		return utilisateurRepository.save(Utilisateur);
@@ -104,6 +104,9 @@ public class UtilisateurService {
     	Utilisateur user = getUtilisateurById(id);
     	String pw = generatePassword();
     	user.setPassword(encoder.encode(pw));
+		//return the login and password as json
+        Map<String, String> response = new HashMap<>();
+        response.put("password", pw);
     	return pw;
     }
 	
