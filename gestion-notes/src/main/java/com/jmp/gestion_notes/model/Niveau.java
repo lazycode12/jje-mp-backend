@@ -25,6 +25,8 @@ public class Niveau {
 	private String alias;
 	private String intitule;
 	
+	private double thresholdX; // Threshold for normal session (e.g., 12)
+	private double thresholdY; // Threshold for retake session (e.g., 8)
 
 
 	@OneToOne
@@ -55,6 +57,24 @@ public class Niveau {
 
 
 	
+
+	    public double getThresholdX() {
+	        return thresholdX;
+	    }
+
+	    public void setThresholdX(double thresholdX) {
+	        this.thresholdX = thresholdX;
+	    }
+
+	    public double getThresholdY() {
+	        return thresholdY;
+	    }
+
+	    public void setThresholdY(double thresholdY) {
+	        this.thresholdY = thresholdY;
+	    }
+	 
+	 
 	public Long getId() {
 		return id;
 	}

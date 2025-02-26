@@ -22,13 +22,14 @@ public class Module {
     private Long id;
     private String code, titre;
 
-    @ManyToOne
+
+	@ManyToOne
     @JoinColumn(name = "id_niveau")
     private Niveau niveau;
 
     @ManyToOne
     @JoinColumn(name = "id_responsable")
-    private Enseignant resp;
+    private Enseignant responsable;
 
 //    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
 //    @JsonIgnore
@@ -82,12 +83,12 @@ public class Module {
         this.niveau = niveau;
     }
 
-    public Enseignant getResp() {
-        return resp;
+    public Enseignant getResponsable() {
+        return responsable;
     }
 
-    public void setResp(Enseignant resp) {
-        this.resp = resp;
+    public void setResponsable(Enseignant resp) {
+        this.responsable = responsable;
     }
 
 //    public List<NoteEtudiant> getNotes() {
@@ -110,4 +111,6 @@ public class Module {
     public String toString() {
         return "Module [id=" + id + ", code=" + code + ", titre=" + titre + "]";
     }
+
+
 }
