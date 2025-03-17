@@ -1,6 +1,7 @@
 package com.jmp.gestion_notes.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import com.jmp.gestion_notes.model.Note;
 import com.jmp.gestion_notes.model.Etudiant;
 import com.jmp.gestion_notes.model.Matiere;
 import com.jmp.gestion_notes.model.Semester;
+import com.jmp.gestion_notes.model.Module;
 import com.jmp.gestion_notes.model.SessionType;
 import com.jmp.gestion_notes.repo.NoteRepository;
 import com.jmp.gestion_notes.repo.EtudiantRepository;
@@ -80,8 +82,13 @@ public class NoteService {
 	
 	 
 	 public void saveNote(Note note) {
-	        noteRepository.save(note);
-	    }
+	    noteRepository.save(note);
+	}
+	 
+	 public List<Note> getNoteByEtudiantAndMatiere(Etudiant etudiant, Matiere matiere) {
+	    return noteRepository.findByEtudiantAndMatiere(etudiant, matiere);
+	 }
+	 
 	 
 	 
 

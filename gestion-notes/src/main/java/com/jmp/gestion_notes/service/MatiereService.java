@@ -60,7 +60,7 @@ public class MatiereService {
 	}
 	
     public List<Matiere> getMatieresByModuleId(Long moduleId) {
-        return matiereRepository.findByModuleId(moduleId);
+        return matiereRepository.findByModuleId(moduleId).orElse(null);
     }
     
     public Matiere getMatiereByTitre(String titre) {

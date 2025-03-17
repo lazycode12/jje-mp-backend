@@ -2,6 +2,7 @@ package com.jmp.gestion_notes.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -10,6 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jmp.gestion_notes.dto.ImportResult;
 import com.jmp.gestion_notes.model.*;
 import com.jmp.gestion_notes.model.Module;
 
@@ -31,9 +33,10 @@ public class ExcelService {
 	private NoteEtudiantService noteEtudiantService;
 	private EnseignantService enseignantService;
 	private FiliereService filiereService;
+	private NoteFinalService noteFinalService;
 	
 	@Autowired
-	public ExcelService(SemesterService semesterService, ModuleService moduleService, NiveauService niveauService, EtudiantService etudiantService, MatiereService matiereService, NoteService noteService, NoteEtudiantService noteEtudiantService, EnseignantService enseignantService, FiliereService filiereService) throws IOException {
+	public ExcelService(SemesterService semesterService, ModuleService moduleService, NiveauService niveauService, EtudiantService etudiantService, MatiereService matiereService, NoteService noteService, NoteEtudiantService noteEtudiantService, EnseignantService enseignantService, FiliereService filiereService, NoteFinalService noteFinalService) throws IOException {
 		this.semesterService = semesterService;
 		this.moduleService = moduleService;
 		this.niveauService = niveauService;
@@ -43,7 +46,7 @@ public class ExcelService {
 		this.noteEtudiantService = noteEtudiantService;
 		this.enseignantService = enseignantService;
 		this.filiereService = filiereService;
-		
+		this.noteFinalService = noteFinalService;
 	}
 
 
@@ -148,29 +151,56 @@ public class ExcelService {
 	    return outputStream.toByteArray();
 	}
 	
-
 	
 	//  importer Fichiers de collecte des notes par module
-	 public void importer_collect_notes(MultipartFile file) throws IOException {
+	 public String importer_collect_notes(MultipartFile file) throws IOException {
+		 
+		 if(!file.getContentType().equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
+         	String message = "Type de fichier non valide. Veuillez télécharger un fichier Excel.";
+         	return message;
+		 }
 		 
 	        try (InputStream inputStream = file.getInputStream()) {
 	            Workbook workbook = new XSSFWorkbook(inputStream);
 	            Sheet sheet = workbook.getSheetAt(0);
 	            
+	            if(sheet.getRow(0) == null || sheet.getRow(1) == null) {
+	            	workbook.close();
+	            	String message = "la structure n'est pas correcte";
+	            	return message;
+	            }
+	            
+	            
 	            String moduleTitre = sheet.getRow(0).getCell(1).getStringCellValue();
-//	            String niveauAlias = sheet.getRow(1).getCell(4).getStringCellValue();
 	            String semesterSemester = sheet.getRow(0).getCell(3).getStringCellValue();
 	            String anne_etude = sheet.getRow(0).getCell(5).getStringCellValue();
 	            String seesion = sheet.getRow(1).getCell(3).getStringCellValue();
 	            
 	            
-//	            Niveau niveau = niveauService.getNiveauByAlias(niveauAlias);
 	            Module module = moduleService.getModuleByTitre(moduleTitre);
 	            Semester semester = semesterService.getSemesterByDetails(seesion, semesterSemester, anne_etude);
 	            
+
+	            
+	            if(module == null) {
+	            	workbook.close();
+	            	return "module introuvable";
+	            }
+	            if(semester == null) {
+	            	workbook.close();
+	            	return "semester introuvable";
+	            }
+
+	            
+
 	            List<Matiere> ModulemMtieres = matiereService.getMatieresByModuleId(module.getId());
 	            List<Matiere> orderedMatieres = new ArrayList<>();
 	            
+	            if(ModulemMtieres == null) {
+	            	workbook.close();
+	            	String message = "les matieres de ce module n'est pas trouve";
+	            	return message;
+	            }
 	            
 	            int matiereCellIndex = 4;
 	            Matiere m;
@@ -181,119 +211,139 @@ public class ExcelService {
                 	
                 }
 	            
-	            // Iterate through rows starting from the second row (skip header)
+	            // Iterate through rows starting from the fourth row (skip header)
                 int colIndex;
 	            for (int i = 4; i <= sheet.getLastRowNum(); i++) {
+	            	Row row = sheet.getRow(i);
+	            	
 	            	Note note = new Note();
-//	            	NoteEtudiant ne = new NoteEtudiant();
+	            	NoteEtudiant ne = new NoteEtudiant();
+	            	
+	            	Etudiant etudiant = etudiantService.getEtudiantById((long) row.getCell(0).getNumericCellValue());
+	            	double note_valeur = (double) row.getCell(orderedMatieres.size() + 4).getNumericCellValue();
+	            	
+	            	ne.setNote(note_valeur);
+	            	ne.setSemester(semester);
+	            	
+	            	noteEtudiantService.addNoteEtudiant(ne, etudiant.getId(), module.getId());
+	            	
 	            	colIndex=4;
-	                Row row = sheet.getRow(i);
 	                if (row == null) continue;
 
 	                for(Matiere matiere: orderedMatieres) {
-	                	Etudiant etudiant = etudiantService.getEtudiantById((long) row.getCell(0).getNumericCellValue());
 	                	float valeur = (float) row.getCell(colIndex++).getNumericCellValue();
-//	                	double moyenne = (double) row.getCell(row.getLastCellNum()-2).getNumericCellValue();
-	                	
+	            
 	                	note.setValeur(valeur);
-//	                	ne.setNote(moyenne);
 	                	noteService.addNote(note, etudiant.getId(), semester.getId(), matiere.getId());
-//	                	noteEtudiantService.addNoteEtudiant(ne, (long) row.getCell(0).getNumericCellValue(), module.getId());
 	                }
+	                
+	                
 	
-	                }
-	            workbook.close();
+	            }
+            	workbook.close();
+            	 return "le fichier est traité avec succès";
 	            }
 	        
-	        
-	        
-	        
-	        
+
 	 }
 	
 	 
 	 
 	 public byte[] generateDeliberationFile(Long id_niveau) {
-		 
-		 Niveau niveau = niveauService.getNiveauById(id_niveau);
-		 List<Module> modules = moduleService.getModulesByNiveauId(id_niveau);
-		 List<Etudiant> etudiants = etudiantService.getEtudiantsByNiveau(id_niveau);
-		 
-		 Workbook workbook = new XSSFWorkbook();
-		 Sheet sheet = workbook.createSheet("collect-notes-par-module");
-		 
+		    Niveau niveau = niveauService.getNiveauById(id_niveau);
+		    List<Module> modules = moduleService.getModulesByNiveauId(id_niveau);
+		    List<Etudiant> etudiants = etudiantService.getEtudiantsByNiveau(id_niveau);
+
+		    Workbook workbook = new XSSFWorkbook();
+		    Sheet sheet = workbook.createSheet("collect-notes-par-module");
+
 		    // Create header rows
 		    Row headerRow1 = sheet.createRow(0);
-		    headerRow1.createCell(0).setCellValue("Anne universitaire");
+		    headerRow1.createCell(0).setCellValue("Academic Year");
 		    headerRow1.createCell(1);
-		    
-		    headerRow1.createCell(2).setCellValue("Date deliberation");
+		    headerRow1.createCell(2).setCellValue("Deliberation Date");
 		    headerRow1.createCell(3);
-		    
+
 		    Row headerRow2 = sheet.createRow(1);
-		    headerRow2.createCell(0).setCellValue("Niveau");
-		    headerRow2.createCell(1);
-		    //empty row
+		    headerRow2.createCell(0).setCellValue("Level");
+		    headerRow2.createCell(1).setCellValue(niveau.getAlias());
+		    // Empty row
 		    sheet.createRow(2);
-		    
-		    
+
 		    // Main headers row
 		    Row headerRow3 = sheet.createRow(3);
 		    headerRow3.createCell(0).setCellValue("ID");
 		    headerRow3.createCell(1).setCellValue("CNE");
 		    headerRow3.createCell(2).setCellValue("NOM");
 		    headerRow3.createCell(3).setCellValue("PRENOM");
-		    
+
 		    int moduleIndex = 4;
-		    for(Module module : modules) {
-		    	Cell cell = headerRow3.createCell(moduleIndex++);
-		    	cell.setCellValue(module.getTitre());
-		    	// merged cell
-		    	sheet.addMergedRegion(new CellRangeAddress(3,3, moduleIndex-1, moduleIndex+matiereService.getMatieresByModuleId(module.getId()).size()));
+		    for (Module module : modules) {
+		        Cell cell = headerRow3.createCell(moduleIndex++);
+		        cell.setCellValue(module.getTitre());
+		        // Merged cell
+		        sheet.addMergedRegion(new CellRangeAddress(3, 3, moduleIndex - 1, moduleIndex + matiereService.getMatieresByModuleId(module.getId()).size()));
 		    }
-		    
-		    // matieres de chaque module
+
+		    // Subject headers for each module
 		    Row matieresHeaders = sheet.createRow(4);
-		    
-		    for(Module module : modules) {
-		    	int matiereIndex=4;
-		    	List<Matiere> matieres = matiereService.getMatieresByModuleId(module.getId());
-		    	
-		    	for(Matiere matiere: matieres) {
-		    		matieresHeaders.createCell(matiereIndex++).setCellValue(matiere.getTitre());
-		    	}
-		    	matieresHeaders.createCell(matiereIndex++).setCellValue("Moyenne"); //Moyenne
-		    	matieresHeaders.createCell(matiereIndex++).setCellValue("Validation"); //validation
+		    for (Module module : modules) {
+		        int matiereIndex = 4;
+		        List<Matiere> matieres = matiereService.getMatieresByModuleId(module.getId());
+
+		        for (Matiere matiere : matieres) {
+		            matieresHeaders.createCell(matiereIndex++).setCellValue(matiere.getTitre());
+		        }
+		        matieresHeaders.createCell(matiereIndex++).setCellValue("Average"); // Average
+		        matieresHeaders.createCell(matiereIndex++).setCellValue("Validation"); // Validation
 		    }
-		    
+
 		    int rowNum = 5;
-		    for(Etudiant etudiant: etudiants) {
-		    	Row row = sheet.createRow(rowNum++);
-		    	int cellIndex = 0;
-		    	
-		    	// information de l'etudiant
+		    for (Etudiant etudiant : etudiants) {
+		        Row row = sheet.createRow(rowNum);
+		        int cellIndex = 0;
+
+		        // Student information
 		        row.createCell(cellIndex++).setCellValue(etudiant.getId());
 		        row.createCell(cellIndex++).setCellValue(etudiant.getCne());
 		        row.createCell(cellIndex++).setCellValue(etudiant.getNom());
 		        row.createCell(cellIndex++).setCellValue(etudiant.getPrenom());
-		        
-		        // notes de chaque matiere de chaue module
-		        for(Module module : modules) {
-		        	List<Matiere> matieres = matiereService.getMatieresByModuleId(module.getId());
-		        	
-		        	for(Matiere matiere: matieres) {
-		        		row.createCell(cellIndex++);
-		        	}
-		        	
-		        	row.createCell(cellIndex++); //moyenne
-		        	row.createCell(cellIndex++); //validation
+
+		        for (Module module : modules) {
+		            List<Matiere> matieres = matiereService.getMatieresByModuleId(module.getId());
+		            int startMatiereIndex = cellIndex; // First subject column index for this module
+
+		            for (Matiere matiere : matieres) {
+		                List<Note> notes = noteService.getNoteByEtudiantAndMatiere(etudiant, matiere);
+		                Note note = notes.stream()
+		                        .filter(n -> n.getSemester().getSemester().equalsIgnoreCase("rattrapage"))
+		                        .findFirst()
+		                        .orElseGet(() ->
+		                                notes.stream()
+		                                        .filter(n -> !n.getSemester().getSemester().equalsIgnoreCase("rattrapage"))
+		                                        .findFirst()
+		                                        .orElse(null)
+		                        );
+
+		                row.createCell(cellIndex++).setCellValue(note != null ? note.getValeur() : 0.0);
+		            }
+
+		            int endMatiereIndex = cellIndex - 1; // Last subject column index for this module
+
+		            // Average formula
+		            String averageFormula = "AVERAGE(" + getColumnLetter(startMatiereIndex) + (rowNum + 1) + ":" + getColumnLetter(endMatiereIndex) + (rowNum + 1) + ")";
+		            Cell averageCell = row.createCell(cellIndex++);
+		            averageCell.setCellFormula(averageFormula);
+
+		            // Validation formula
+		            String validationFormula = "IF(" + getColumnLetter(cellIndex - 1) + (rowNum + 1) + ">=10, \"V\", \"NV\")";
+		            Cell validationCell = row.createCell(cellIndex++);
+		            validationCell.setCellFormula(validationFormula);
 		        }
-		        
-		        
+
+		        rowNum++;
 		    }
-		    
-		 
-		 
+
 		    // Convert workbook to byte array
 		    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		    try {
@@ -302,25 +352,51 @@ public class ExcelService {
 		    } catch (IOException e) {
 		        e.printStackTrace();
 		    }
-		    
-		    
-		    
+
 		    return outputStream.toByteArray();
-	 }
+		}
+
+		/**
+		 * Converts column index to Excel column letter (e.g., 1 -> A, 2 -> B, ..., 27 -> AA)
+		 */
+		private String getColumnLetter(int columnIndex) {
+		    StringBuilder columnLetter = new StringBuilder();
+		    while (columnIndex >= 0) {
+		        columnLetter.insert(0, (char) ('A' + (columnIndex % 26)));
+		        columnIndex = (columnIndex / 26) - 1;
+		    }
+		    return columnLetter.toString();
+		}
+
 	 
 	 
-	 
-	 public void importer_deliberation_note(MultipartFile file) throws IOException{
+	 public String importer_deliberation_note(MultipartFile file) throws IOException{
+		 
+		 if(!file.getContentType().equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
+	         	return "Type de fichier non valide. Veuillez télécharger un fichier Excel.";
+			 }
 		 
 	        try (InputStream inputStream = file.getInputStream()) {
 	        	
 	        	Workbook workbook = new XSSFWorkbook(inputStream);
 	            Sheet sheet = workbook.getSheetAt(0);
 	            
+	            if(sheet.getRow(0) == null || sheet.getRow(2) == null || sheet.getRow(2) == null) {
+	            	workbook.close();
+	            	return "la structure n'est pas correcte";
+	            }
+	            
 	            
 	            String anneEtude = sheet.getRow(0).getCell(1).getStringCellValue();
+	            if(anneEtude == null) {
+	            	workbook.close();
+	            	return "anne d'etude n'est pas trouvee";
+	            }
 	            String niveauAlias = sheet.getRow(1).getCell(1).getStringCellValue();
-	            
+	            if(niveauAlias == null) {
+	            	workbook.close();
+	            	return "niveau n'est pas trouvee";
+	            }
 	   		 	Niveau niveau = niveauService.getNiveauByAlias(niveauAlias);
 	   			List<Module> modules = moduleService.getModulesByNiveauId(niveau.getId());
 	            
@@ -332,15 +408,17 @@ public class ExcelService {
 	            	for(Module module: modules) {
 	            		List<Matiere> matieres = matiereService.getMatieresByModuleId(module.getId());
 	            		
-	            		note = (double) row.getCell(3 + matieres.size() + 1).getNumericCellValue();
-	            		NoteEtudiant ne = new NoteEtudiant();
-	            		ne.setNote(note);
-	            		ne.setAnneEtude(anneEtude);
-	            		noteEtudiantService.addNoteEtudiant(ne, id_etudiant, module.getId());
+	            		note = (double) row.getCell(matieres.size() + 4).getNumericCellValue();
+	            		NoteFinal fn = new NoteFinal();
+
+	            		fn.setNote(note);
+	            		noteFinalService.addNote(fn, etudiantService.getEtudiantById(id_etudiant), module);
+
 	            	}
 	            }
 
 	            workbook.close();
+	            return "le fichier est traité avec succès";
 	         }
 	 }
 	 
@@ -348,6 +426,7 @@ public class ExcelService {
 	 
 	
 	 public void importer_inscription_reinscription (MultipartFile file) throws IOException{
+		 
 		 try (InputStream inputStream = file.getInputStream()) {
 			 Workbook workbook = new XSSFWorkbook(inputStream);
 	         Sheet sheet = workbook.getSheetAt(0);
@@ -385,11 +464,19 @@ public class ExcelService {
 	 
 	 
 	 
-	 public void importer_sp (MultipartFile file) throws IOException{
+	 public String importer_sp (MultipartFile file) throws IOException{
+		 
+		 if(!file.getContentType().equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
+	         	return "Type de fichier non valide. Veuillez télécharger un fichier Excel.";
+		}
 		 
 		 try (InputStream inputStream = file.getInputStream()) {
 			 Workbook workbook = new XSSFWorkbook(inputStream);
 			 
+			 if(workbook.getNumberOfSheets() != 5) {
+				 workbook.close();
+				 return "le fichier doit etre contenu 5 sheets";
+			 }
 	         Sheet coordinateur_sheet = workbook.getSheetAt(0);
 	         Sheet filiere_sheet = workbook.getSheetAt(1);
 	         Sheet niveaux_sheet = workbook.getSheetAt(2);
@@ -473,9 +560,12 @@ public class ExcelService {
 	        	 matiereService.createMatiere(new Matiere(titre), moduleService.getModuleBycode(codeModule).getId(), ens.getId());
 	         }
 	         workbook.close();
+	         return "le fichier est traité avec succès";
+	         }
+		 
 		 }
 		 
-	 }
+	 
 	 
 	 
 	 

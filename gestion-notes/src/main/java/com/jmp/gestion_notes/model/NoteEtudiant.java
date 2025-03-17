@@ -26,21 +26,35 @@ public class NoteEtudiant {
     @JoinColumn(name = "id_module", nullable = false)
     @JsonIgnore
     private Module module;
+    
+    @ManyToOne
+    @JoinColumn(name = "semester_id", nullable = false)
+    private Semester semester;
 
     private Double note; // Grade of the student in this module
     private String anneEtude;
     // Constructors
     public NoteEtudiant() {}
 
-    public NoteEtudiant(Etudiant etudiant, Module module, Double note) {
+    public NoteEtudiant(Etudiant etudiant, Module module, Double note, Semester semester) {
         this.etudiant = etudiant;
         this.module = module;
         this.note = note;
+        this.semester = semester;
     }
 
     // Getters and Setters
+    
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Semester getSemester() {
+		return semester;
+	}
+
+	public void setSemester(Semester semester) {
+		this.semester = semester;
+	}
+
+	public void setId(Long id) { this.id = id; }
 
     public Etudiant getEtudiant() { return etudiant; }
     public void setEtudiant(Etudiant etudiant) { this.etudiant = etudiant; }

@@ -100,14 +100,15 @@ public class UtilisateurService {
     }
 	
     // initialize password of specific user
-    public String initPass(Long id) {
+    public Map<String, String> initPass(Long id) {
     	Utilisateur user = getUtilisateurById(id);
     	String pw = generatePassword();
     	user.setPassword(encoder.encode(pw));
+    	utilisateurRepository.save(user);
 		//return the login and password as json
         Map<String, String> response = new HashMap<>();
         response.put("password", pw);
-    	return pw;
+    	return response;
     }
 	
     // Générer un login unique

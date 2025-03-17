@@ -31,8 +31,8 @@ public class UtilisateurController {
     	return new ResponseEntity<>(user, HttpStatus.OK);
     }
     // initialiser le mot de passe d'un utilisateur
-    @GetMapping("/initpw/{id}")
-    public String initializePassword(@PathVariable Long id) {
+    @GetMapping("/initpw")
+    public Object initializePassword(@RequestParam Long id) {
         return utilisateurService.initPass(id);
     }
     

@@ -65,7 +65,7 @@ public class ModuleService {
 	}
 	
     public Module getModuleByTitre(String titre) {
-        return moduleRepository.findByTitre(titre);
+        return moduleRepository.findByTitre(titre).orElse(null);
     }
     
     public Module getModuleBycode(String code) {

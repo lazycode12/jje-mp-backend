@@ -4,6 +4,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,39 +53,35 @@ public class ExcelController {
     }
     
     @PostMapping("/upload/collectnotes")
-    public ResponseEntity<String> importCollectNotes(@RequestParam("file") MultipartFile file){
+    public ResponseEntity<Map<String, String>> importCollectNotes(@RequestParam("file") MultipartFile file){
+    	Map<String, String> response = new HashMap<>();
         try {
-            // Validate file type
-            if (!file.getContentType().equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
-                return ResponseEntity.badRequest().body("Invalid file type. Please upload an Excel file.");
-            }
-
-            // Process the file
-            excelService.importer_collect_notes(file);
-
-            return ResponseEntity.ok("File uploaded and processed successfully!");
+            
+            String message = excelService.importer_collect_notes(file);
+            response.put("message", message);
+            return ResponseEntity.ok(response);
+            
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to process the file.");
+            response.put("message", "Échec du traitement du fichier");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
     
     @PostMapping("/upload/delinotes")
-    public ResponseEntity<String> importDeliNotes(@RequestParam("file") MultipartFile file){
-        // Validate file type
-        if (!file.getContentType().equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
-            return ResponseEntity.badRequest().body("Invalid file type. Please upload an Excel file.");
-        }
-        
-        // Process the file
+    public ResponseEntity<Map<String, String>>importDeliNotes(@RequestParam("file") MultipartFile file){
+    	Map<String, String> response = new HashMap<>();
+    	
         try {
-			excelService.importer_deliberation_note(file);
+			String message = excelService.importer_deliberation_note(file);
+			response.put("message", message);
+			return ResponseEntity.ok(response);
 			
-			return ResponseEntity.ok("File uploaded and processed successfully!");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to process the file.");
+			response.put("message", "Échec du traitement du fichier");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
     }
     
@@ -108,21 +106,18 @@ public class ExcelController {
     
     
     @PostMapping("/upload/sp")
-    public ResponseEntity<String> importSp(@RequestParam("file") MultipartFile file){
-        // Validate file type
-        if (!file.getContentType().equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
-            return ResponseEntity.badRequest().body("Invalid file type. Please upload an Excel file.");
-        }
-        
-        // Process the file
+    public ResponseEntity<Map<String, String>> importSp(@RequestParam("file") MultipartFile file){
+    	Map<String, String> response = new HashMap<>();
+    	
         try {
-			excelService.importer_sp(file);
-			
-			return ResponseEntity.ok("File uploaded and processed successfully!");
+			String message = excelService.importer_sp(file);
+			response.put("message", message);
+			return ResponseEntity.ok(response);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to process the file.");
+			response.put("message", "Échec du traitement du fichier");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
     }
 
