@@ -1,0 +1,97 @@
+2025-06-25 13:15:29.470 [main] INFO  [] [] [] c.j.g.GestionNotesApplication - Starting GestionNotesApplication using Java 17.0.5 with PID 9604 (C:\Users\Admin\Desktop\cours\jee prj\jje-mp-backend\gestion-notes\target\classes started by Admin in C:\Users\Admin\Desktop\cours\jee prj\jje-mp-backend\gestion-notes)
+2025-06-25 13:15:29.475 [main] INFO  [] [] [] c.j.g.GestionNotesApplication - No active profile set, falling back to 1 default profile: "default"
+2025-06-25 13:15:31.489 [main] INFO  [] [] [] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-06-25 13:15:31.713 [main] INFO  [] [] [] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 202 ms. Found 16 JPA repository interfaces.
+2025-06-25 13:15:33.609 [main] INFO  [] [] [] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-06-25 13:15:33.641 [main] INFO  [] [] [] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-25 13:15:33.641 [main] INFO  [] [] [] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2025-06-25 13:15:33.772 [main] INFO  [] [] [] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-25 13:15:33.774 [main] INFO  [] [] [] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4207 ms
+2025-06-25 13:15:34.153 [main] INFO  [] [] [] o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-06-25 13:15:34.268 [main] INFO  [] [] [] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.5.Final
+2025-06-25 13:15:34.344 [main] INFO  [] [] [] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-06-25 13:15:34.909 [main] INFO  [] [] [] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-06-25 13:15:34.969 [main] INFO  [] [] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-06-25 13:15:35.223 [main] INFO  [] [] [] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@bb5f9d
+2025-06-25 13:15:35.227 [main] INFO  [] [] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-06-25 13:15:35.306 [main] WARN  [] [] [] org.hibernate.dialect.Dialect - HHH000511: The 5.5.5 version for [org.hibernate.dialect.MariaDBDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 10.4.0. Check the community dialects project for available legacy versions.
+2025-06-25 13:15:35.320 [main] WARN  [] [] [] org.hibernate.orm.deprecation - HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-06-25 13:15:35.365 [main] INFO  [] [] [] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-06-25 13:15:37.572 [main] INFO  [] [] [] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-06-25 13:15:37.923 [main] INFO  [] [] [] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-06-25 13:15:38.875 [main] INFO  [] [] [] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-06-25 13:15:39.326 [main] INFO  [] [] [] o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-06-25 13:15:41.846 [main] WARN  [] [] [] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-06-25 13:15:43.665 [main] INFO  [] [] [] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-06-25 13:15:43.683 [main] INFO  [] [] [] c.j.g.GestionNotesApplication - Started GestionNotesApplication in 15.057 seconds (process running for 16.324)
+2025-06-25 13:19:39.724 [RMI TCP Connection(7)-127.0.0.1] INFO  [] [] [] o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2025-06-25 13:19:39.730 [RMI TCP Connection(7)-127.0.0.1] INFO  [] [] [] o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-25 13:19:40.195 [tomcat-shutdown] INFO  [] [] [] o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-25 13:19:40.210 [RMI TCP Connection(7)-127.0.0.1] INFO  [] [] [] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-06-25 13:19:40.215 [RMI TCP Connection(7)-127.0.0.1] INFO  [] [] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-06-25 13:19:40.252 [RMI TCP Connection(7)-127.0.0.1] INFO  [] [] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-06-25 13:19:46.410 [main] INFO  [] [] [] c.j.g.GestionNotesApplication - Starting GestionNotesApplication using Java 17.0.5 with PID 13416 (C:\Users\Admin\Desktop\cours\jee prj\jje-mp-backend\gestion-notes\target\classes started by Admin in C:\Users\Admin\Desktop\cours\jee prj\jje-mp-backend\gestion-notes)
+2025-06-25 13:19:46.422 [main] INFO  [] [] [] c.j.g.GestionNotesApplication - No active profile set, falling back to 1 default profile: "default"
+2025-06-25 13:19:49.378 [main] INFO  [] [] [] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-06-25 13:19:50.025 [main] INFO  [] [] [] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 579 ms. Found 16 JPA repository interfaces.
+2025-06-25 13:19:54.684 [main] INFO  [] [] [] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-06-25 13:19:54.730 [main] INFO  [] [] [] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-25 13:19:54.732 [main] INFO  [] [] [] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2025-06-25 13:19:54.934 [main] INFO  [] [] [] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-25 13:19:54.935 [main] INFO  [] [] [] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 8360 ms
+2025-06-25 13:19:56.108 [main] INFO  [] [] [] o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-06-25 13:19:57.033 [main] INFO  [] [] [] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.5.Final
+2025-06-25 13:19:57.349 [main] INFO  [] [] [] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-06-25 13:19:59.403 [main] INFO  [] [] [] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-06-25 13:19:59.556 [main] INFO  [] [] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-06-25 13:20:00.983 [main] INFO  [] [] [] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@29bd2796
+2025-06-25 13:20:00.988 [main] INFO  [] [] [] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-06-25 13:20:01.121 [main] WARN  [] [] [] org.hibernate.dialect.Dialect - HHH000511: The 5.5.5 version for [org.hibernate.dialect.MariaDBDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 10.4.0. Check the community dialects project for available legacy versions.
+2025-06-25 13:20:01.131 [main] WARN  [] [] [] org.hibernate.orm.deprecation - HHH90000025: MariaDBDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-06-25 13:20:01.206 [main] INFO  [] [] [] o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 5.5.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-06-25 13:20:06.175 [main] INFO  [] [] [] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-06-25 13:20:06.725 [main] INFO  [] [] [] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-06-25 13:20:10.573 [main] INFO  [] [] [] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2025-06-25 13:20:11.596 [main] INFO  [] [] [] o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-06-25 13:20:17.556 [main] WARN  [] [] [] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-06-25 13:20:20.349 [main] INFO  [] [] [] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-06-25 13:20:20.370 [main] INFO  [] [] [] c.j.g.GestionNotesApplication - Started GestionNotesApplication in 35.09 seconds (process running for 37.362)
+2025-06-25 13:24:43.083 [http-nio-8080-exec-1] INFO  [] [] [] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-25 13:24:43.083 [http-nio-8080-exec-1] INFO  [] [] [] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-25 13:24:43.085 [http-nio-8080-exec-1] INFO  [] [] [] o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-06-25 13:24:43.898 [http-nio-8080-exec-2] INFO  [anonymous] [login] [c8fe28ac] APP_JOURNAL - 🚀 USER ACTION START - User: anonymous | Action: AuthController.login | Parameters: [HttpRequest/Response]
+2025-06-25 13:24:45.219 [http-nio-8080-exec-3] INFO  [anonymous] [login] [072b7abd] APP_JOURNAL - 🚀 USER ACTION START - User: anonymous | Action: AuthController.login | Parameters: [HttpRequest/Response]
+2025-06-25 13:24:45.661 [http-nio-8080-exec-2] INFO  [anonymous] [login] [c8fe28ac] APP_JOURNAL - ✅ USER ACTION SUCCESS - User: anonymous | Action: AuthController.login | Duration: 1763ms
+2025-06-25 13:24:46.004 [http-nio-8080-exec-3] INFO  [anonymous] [login] [072b7abd] APP_JOURNAL - ✅ USER ACTION SUCCESS - User: anonymous | Action: AuthController.login | Duration: 785ms
+2025-06-25 13:24:46.088 [http-nio-8080-exec-5] INFO  [anonymous] [login] [1d625171] APP_JOURNAL - 🚀 USER ACTION START - User: anonymous | Action: AuthController.login | Parameters: [HttpRequest/Response]
+2025-06-25 13:24:46.223 [http-nio-8080-exec-8] INFO  [anonymous] [login] [c05714b5] APP_JOURNAL - 🚀 USER ACTION START - User: anonymous | Action: AuthController.login | Parameters: [HttpRequest/Response]
+2025-06-25 13:24:46.288 [http-nio-8080-exec-7] INFO  [john.doe] [getUserInfo] [c1493259] APP_JOURNAL - 🚀 USER ACTION START - User: john.doe | Action: AuthController.getUserInfo | Parameters: [***HIDDEN***]
+2025-06-25 13:24:46.288 [http-nio-8080-exec-7] INFO  [john.doe] [getUserInfo] [c1493259] APP_JOURNAL - ✅ USER ACTION SUCCESS - User: john.doe | Action: AuthController.getUserInfo | Duration: 0ms
+2025-06-25 13:24:46.420 [http-nio-8080-exec-9] INFO  [john.doe] [getUserInfo] [6c37e4c3] APP_JOURNAL - 🚀 USER ACTION START - User: john.doe | Action: AuthController.getUserInfo | Parameters: [***HIDDEN***]
+2025-06-25 13:24:46.421 [http-nio-8080-exec-9] INFO  [john.doe] [getUserInfo] [6c37e4c3] APP_JOURNAL - ✅ USER ACTION SUCCESS - User: john.doe | Action: AuthController.getUserInfo | Duration: 1ms
+2025-06-25 13:24:46.537 [http-nio-8080-exec-2] INFO  [john.doe] [getAllUsers] [6fcb1e75] APP_JOURNAL - 🚀 USER ACTION START - User: john.doe | Action: EnseignantController.getAllUsers | Parameters: []
+2025-06-25 13:24:46.602 [http-nio-8080-exec-2] INFO  [john.doe] [getAllUsers] [6fcb1e75] APP_JOURNAL - ✅ USER ACTION SUCCESS - User: john.doe | Action: EnseignantController.getAllUsers | Duration: 65ms
+2025-06-25 13:24:47.150 [http-nio-8080-exec-5] INFO  [anonymous] [login] [1d625171] APP_JOURNAL - ✅ USER ACTION SUCCESS - User: anonymous | Action: AuthController.login | Duration: 1062ms
+2025-06-25 13:24:47.245 [http-nio-8080-exec-3] INFO  [john.doe] [getUserInfo] [ada38a6b] APP_JOURNAL - 🚀 USER ACTION START - User: john.doe | Action: AuthController.getUserInfo | Parameters: [***HIDDEN***]
+2025-06-25 13:24:47.245 [http-nio-8080-exec-3] INFO  [john.doe] [getUserInfo] [ada38a6b] APP_JOURNAL - ✅ USER ACTION SUCCESS - User: john.doe | Action: AuthController.getUserInfo | Duration: 0ms
+2025-06-25 13:24:47.265 [http-nio-8080-exec-8] INFO  [anonymous] [login] [c05714b5] APP_JOURNAL - ✅ USER ACTION SUCCESS - User: anonymous | Action: AuthController.login | Duration: 1042ms
+2025-06-25 13:24:47.306 [http-nio-8080-exec-9] INFO  [john.doe] [getUserInfo] [56d1fe4a] APP_JOURNAL - 🚀 USER ACTION START - User: john.doe | Action: AuthController.getUserInfo | Parameters: [***HIDDEN***]
+2025-06-25 13:24:47.307 [http-nio-8080-exec-9] INFO  [john.doe] [getUserInfo] [56d1fe4a] APP_JOURNAL - ✅ USER ACTION SUCCESS - User: john.doe | Action: AuthController.getUserInfo | Duration: 0ms
+2025-06-25 13:25:22.819 [http-nio-8080-exec-2] INFO  [john.doe] [createEnseignant] [f0627248] APP_JOURNAL - 🚀 USER ACTION START - User: john.doe | Action: EnseignantController.createEnseignant | Parameters: [Enseignant [id=null, nom=Khallaoui, prenom=mohamed]]
+2025-06-25 13:25:22.828 [http-nio-8080-exec-2] INFO  [john.doe] [createEnseignant] [f0627248] APP_JOURNAL - ✅ USER ACTION SUCCESS - User: john.doe | Action: EnseignantController.createEnseignant | Duration: 10ms
+2025-06-25 13:25:22.866 [http-nio-8080-exec-5] INFO  [john.doe] [getAllUsers] [c4c66c31] APP_JOURNAL - 🚀 USER ACTION START - User: john.doe | Action: EnseignantController.getAllUsers | Parameters: []
+2025-06-25 13:25:22.872 [http-nio-8080-exec-5] INFO  [john.doe] [getAllUsers] [c4c66c31] APP_JOURNAL - ✅ USER ACTION SUCCESS - User: john.doe | Action: EnseignantController.getAllUsers | Duration: 6ms
